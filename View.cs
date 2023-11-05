@@ -6,52 +6,26 @@ using System.Threading.Tasks;
 
 namespace Fountain_of_Objects
 {
-
     public class Gameboard
     {
-
-        Fields[,] Board { get; set; } = new Fields[4, 4];
-
-        public Gameboard()
-        {
-            FillBoard();
-            DrawBoard();
-        }
-
-        private void FillBoard()
+        /// <summary>
+        /// creates a 2d array of tiles
+        /// default is one of 4x4
+        /// </summary>
+        public void DrawBoard(Field[,] fields, Player player)
         {
             for (int i = 0; i < 4; i++)
             {
                 for (int k = 0; k < 4; k++)
                 {
-                    if (i == 0 && k == 0)
+                    if (i == player.GetPosition().Item1 && k == player.GetPosition().Item2)
                     {
-                        Board[i, k] = new Cavern();
-                    }
-                    else if (i == 0 && k == 2)
-                    {
-                        Board[i, k] = new FOO();
+                        player.GetLook();
                     }
                     else
                     {
-                        Board[i, k] = new Empty();
+                        fields[i, k].GetLook();
                     }
-                }
-            }
-        }
-
-        /// <summary>
-        /// creates a 2d array of tiles
-        /// default is one of 4x4
-        /// </summary>
-        public void DrawBoard()
-        {
-           for (int i = 0; i < 4; i++)
-            {
-                
-                for (int k = 0; k < 4; k++)
-                {
-                    Board[i,k].GetLook();
                 }
                 Console.WriteLine();
             }
