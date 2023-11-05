@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace Fountain_of_Objects
 {
-    public abstract class Fields
+    public abstract class Field
     {
         protected string Look { get; set; }
         protected ConsoleColor Color { get; set; }
 
-        public void GetLook() 
+        public void GetLook()
         {
             Console.ForegroundColor = Color;
             Console.Write(Look);
             Console.ResetColor();
-        } 
-
+        }
     }
-    public class Empty : Fields
+
+    public class Empty : Field
     {
         public Empty()
         {
@@ -27,11 +27,12 @@ namespace Fountain_of_Objects
             Color = ConsoleColor.DarkGreen;
         }
     }
-    public class FOO : Fields
-    {
 
+    public class FOO : Field
+    {
         public bool isFound { get; set; }
         public bool IsEnabled { get; set; }
+
         public FOO()
         {
             Look = "F";
@@ -41,13 +42,28 @@ namespace Fountain_of_Objects
 
         public void SetEnabled()
         {
+            
+            if (IsEnabled == false)
+            {
             IsEnabled = true;
             Color = ConsoleColor.Cyan;
+            }else
+            {
+                IsEnabled = false;
+                Color = ConsoleColor.Green;
+            }
+        }
+
+        public bool GetEnabled()
+        {
+            return IsEnabled;
         }
     }
-    public class Cavern : Fields
+
+    public class Cavern : Field
     {
         public bool IsEnabled { get; set; }
+
         public Cavern()
         {
             Look = "C";
