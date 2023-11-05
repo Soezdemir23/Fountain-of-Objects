@@ -8,15 +8,15 @@
  *   + move east
  *   + move south
  *   + move west
- * + (0,0) is the entrance of the cave and also the exit. Starting position. Can 
+ * + (0,0) is the entrance of the cave and also the exit. Starting position. Can
  *   see light coming from outside when in that room
- *   + "You see light in this room coming from outside the cavern. 
+ *   + "You see light in this room coming from outside the cavern.
  *     This is the entrance."
- * + (0,2) is the fountain room, containing the fountain of objects itself. 
+ * + (0,2) is the fountain room, containing the fountain of objects itself.
  *   + Can be enabled or disabled
- *      + if disabled: "You hear the water dripping from the fountain. 
+ *      + if disabled: "You hear the water dripping from the fountain.
  *        The Fountain of Objects is here!"
- *      + if enabled: "You hear the rushing waters from the Fountain of Objects. 
+ *      + if enabled: "You hear the rushing waters from the Fountain of Objects.
  *        It has been reactivated!"
  *      + off by default
  *      + can be enabled in the fountain room, if the user types "enable fountain"
@@ -26,7 +26,7 @@
  *  + intro, ending, etc. in magenta
  *  + input from the user in cyan
  *  + descriptive text in white
- *  
+ *
  *  We have a field parent class
  *  We have an entity parent class
  *  We have a gameboard class
@@ -36,4 +36,268 @@
 
 using Fountain_of_Objects;
 
-new Gameboard();
+//Should I first prototype the logic on the main method?
+
+
+Player player = new();
+Field[,] fields = new Field[4, 4];
+
+static void FillBoard(Field[,] fields)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        for (int k = 0; k < 4; k++)
+        {
+            if (i == 0 && k == 0)
+            {
+                fields[i, k] = new Cavern();
+            }
+            else if (i == 0 && k == 2)
+            {
+                fields[i, k] = new FOO();
+            }
+            else
+            {
+                fields[i, k] = new Empty();
+            }
+        }
+    }
+}
+
+Gameboard gameboard = new Gameboard();
+FillBoard(fields);
+
+new NarrativeText().Intro();
+
+while (true)
+{
+    new DescriptiveText().WhereAbout(player.GetPosition());
+    if (player.GetPosition() == (0, 0))
+    {
+        new CavernText().Entrance();
+    }
+    else if (player.GetPosition() == (0, 2))
+    {
+        FOO fountain = (FOO)fields[0, 2];
+        if (fields[0,2]is FOO && fountain.GetEnabled() == false)
+        {
+            new FountainText().FountainFoundDisabled();
+        }else if (fields[0,2]is FOO && fountain.GetEnabled() == true)
+        {
+            new FountainText().FountainFoundEnabled() ;
+        }
+    }
+
+    gameboard.DrawBoard(fields, player);
+
+    while (true)
+    {
+
+        var input = new InputText().GetInput();
+        //first validate input for movement
+        bool validatedInput = ValidateInputMovement(input);
+        if (validatedInput == true)
+        {
+            break;
+        }
+        else if (validatedInput == false)
+        {
+            string result = ValidateInputInteraction(input);
+            switch (result)
+            {
+                case "win game":
+                case "lose game":
+                    return;
+                case "fountain enabled":
+                case "fountain disabled":
+                    break;
+                default:
+                    if (input.Contains("move east") || input.Contains("move west") ||
+                        input.Contains("move south") || input.Contains("move north"))
+                    {
+
+                    }else
+                    {
+                    new NarrativeText().GetInvalidInputText(input);
+
+                    }
+                    break;
+
+            }
+        }
+        //then validate for interactions.
+        
+    }
+}
+
+
+
+///<summary>
+/// return 
+///</summary>
+string ValidateInputInteraction(string input)
+{
+    FOO fountain = (FOO)fields[0, 2];
+    switch (input)
+    {
+        // leave the cavern if player is at the entrance, if the fountain is enabled, the player wins
+        // otherwise the player loses
+        // otherwise tell the player the field is not the entrance
+        case "leave cavern":
+            if (player.GetPosition() == (0, 0))
+            {
+                if (fountain.GetEnabled())
+                {
+                    new NarrativeText().GetLeaveCavernEnabledFountain();
+                    return "win game";
+                }
+                else if (fountain.GetEnabled() == false)
+                {
+                    new NarrativeText().GetLeaveCavernDisabledFountain();
+                    return "lose game";
+                }
+                return "left";
+            }
+            else
+            {
+                new NarrativeText().GetInvalidInputInteractionCavern();
+                return "invalid input";
+
+            }
+            
+        // enable fountain if player is at the fountain
+        //  if it is already enabled, tell the player it is already enabled
+        //  if it is disabled, enable it
+        // tell player the field is not the fountain
+        case "enable fountain":
+            if (player.GetPosition() == (0, 2))
+            {
+                if (fountain.GetEnabled() == true)
+                {
+                    new NarrativeText().GetInvalidInputEnableFountain();
+                    return "invalid input";
+                }
+                else
+                {
+                    fountain.SetEnabled();
+                    new FountainText().FountainEnabled();
+                    return "fountain enabled";
+                }
+                
+            }
+            else
+            {
+                new NarrativeText().GetInvalidInputOutsideFountain();
+                return "invalid input";
+            }
+            
+        // disable fountain if player is at the fountain
+        //  if it is already disabled, tell the player it is already disabled
+        //  if it is enabled, disable it
+        // tell player the field is not the fountain
+        case "disable fountain":
+            if (player.GetPosition() == (0,2))
+            {
+                if (fountain.GetEnabled() == true)
+                {
+                    fountain.SetEnabled();
+                    new FountainText().FountainDisabled();
+                    return "fountain disabled";
+                }
+                else
+                {
+                    new NarrativeText().GetInvalidInputDisableFountain();
+                    return "invalid input";
+                }
+            }
+            else
+            {
+                new  NarrativeText().GetInvalidInputOutsideFountain();
+                return "invalid input";
+            }
+            
+        // catch all for invalid input
+        default:
+            return "invalid default";
+        }
+}
+
+
+//
+bool ValidateInputMovement(string input)
+{
+    switch (input)
+    {
+        case "move north":
+            player.SetPosition((player.GetPosition().Item1 - 1, player.GetPosition().Item2));
+            if (IsEntityInGameField(player.GetPosition()) == true)
+            {
+                return true;
+            }
+            else
+            {
+                player.SetPosition((player.GetPosition().Item1 + 1, player.GetPosition().Item2));
+                new NarrativeText().GetInvalidInputBounds(input);
+                return false;
+            }
+        case "move south":
+            player.SetPosition((player.GetPosition().Item1 + 1, player.GetPosition().Item2));
+            if (IsEntityInGameField(player.GetPosition()) == true)
+            {
+                return true;
+            }
+            else
+            {
+                player.SetPosition((player.GetPosition().Item1 - 1, player.GetPosition().Item2));
+                new NarrativeText().GetInvalidInputBounds(input);
+                return false;
+            }
+
+        case "move west":
+            player.SetPosition((player.GetPosition().Item1, player.GetPosition().Item2 - 1));
+            if (IsEntityInGameField(player.GetPosition()) == true)
+            {
+                return true;
+            }
+            else
+            {
+                player.SetPosition((player.GetPosition().Item1, player.GetPosition().Item2 + 1));
+                new NarrativeText().GetInvalidInputBounds(input);
+                return false;
+            }
+        case "move east":
+            player.SetPosition((player.GetPosition().Item1, player.GetPosition().Item2 + 1));
+            if (IsEntityInGameField(player.GetPosition()) == true)
+            {
+                return true;
+            }
+            else
+            {
+                player.SetPosition((player.GetPosition().Item1, player.GetPosition().Item2 - 1));
+                new NarrativeText().GetInvalidInputBounds(input);
+                return false;
+            }
+        default:
+            return false;
+    }
+}
+
+// EntityInGameField:
+// if the item1 - 1 < 0 or item1 +
+// same if for item2
+// return false
+bool IsEntityInGameField((int, int) tuple)
+{
+    if (tuple.Item1 < 0 || tuple.Item1 > 3)
+    {
+        return false;
+    }
+    else if (tuple.Item2 < 0 || tuple.Item2 > 3)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
