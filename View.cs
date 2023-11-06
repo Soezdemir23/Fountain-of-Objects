@@ -12,11 +12,11 @@ namespace Fountain_of_Objects
         /// creates a 2d array of tiles
         /// default is one of 4x4
         /// </summary>
-        public void DrawBoard(Field[,] fields, Player player)
+        public void DrawBoard(Field[,] fields, Player player, int squareSize)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < squareSize; i++)
             {
-                for (int k = 0; k < 4; k++)
+                for (int k = 0; k < squareSize; k++)
                 {
                     if (i == player.GetPosition().Item1 && k == player.GetPosition().Item2)
                     {
