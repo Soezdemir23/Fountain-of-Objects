@@ -42,12 +42,12 @@ namespace Fountain_of_Objects
 
         public void SetEnabled()
         {
-            
             if (IsEnabled == false)
             {
-            IsEnabled = true;
-            Color = ConsoleColor.Cyan;
-            }else
+                IsEnabled = true;
+                Color = ConsoleColor.Cyan;
+            }
+            else
             {
                 IsEnabled = false;
                 Color = ConsoleColor.Green;
@@ -75,6 +75,15 @@ namespace Fountain_of_Objects
         {
             IsEnabled = true;
             Color = ConsoleColor.Gray;
+        }
+    }
+
+    public class Pit : Field
+    {
+        public Pit()
+        {
+            Look = "P";
+            Color = ConsoleColor.DarkRed;
         }
     }
 }

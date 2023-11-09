@@ -1,39 +1,4 @@
 ﻿// See https://aka.ms/new-console-template for more information
-/*
- * + 2d array nxn
- * + there is north east south and west
- * + most rooms are empty rooms and nothing else
- * + player has to enter commands like:
- *   + move north
- *   + move east
- *   + move south
- *   + move west
- * + (0,0) is the entrance of the cave and also the exit. Starting position. Can
- *   see light coming from outside when in that room
- *   + "You see light in this room coming from outside the cavern.
- *     This is the entrance."
- * + (0,2) is the fountain room, containing the fountain of objects itself.
- *   + Can be enabled or disabled
- *      + if disabled: "You hear the water dripping from the fountain.
- *        The Fountain of Objects is here!"
- *      + if enabled: "You hear the rushing waters from the Fountain of Objects.
- *        It has been reactivated!"
- *      + off by default
- *      + can be enabled in the fountain room, if the user types "enable fountain"
- *        inside the fountain room only.
- * + player wins,if they enter the exit room with the object from the fountain enabled
- * + use different colors to emphasis different type of text.
- *  + intro, ending, etc. in magenta
- *  + input from the user in cyan
- *  + descriptive text in white
- *
- *  We have a field parent class
- *  We have an entity parent class
- *  We have a gameboard class
- *  We have a text parent class
- *  We have a class that handles the game logic
- */
-
 using Fountain_of_Objects;
 
 //Should I first prototype the logic on the main method?
@@ -42,20 +7,17 @@ using Fountain_of_Objects;
 Player player = new();
 Field[,] fields = new Field[4, 4];
 
-
-
 static void FillBoard(Field[,] fields, int squareSize)
 {
-    
     for (int i = 0; i < squareSize; i++)
     {
         for (int k = 0; k < squareSize; k++)
         {
-            if (i == 0 && k == 0)// can stay like this
+            if (i == 0 && k == 0) // can stay like this
             {
                 fields[i, k] = new Cavern();
             }
-            else if (i == 0 && k == squareSize/2)// so basically s=> 0,2 m=> 0,3 l=> 0,4
+            else if (i == 0 && k == squareSize / 2) // so basically s=> 0,2 m=> 0,3 l=> 0,4
             {
                 fields[i, k] = new FOO();
             }
@@ -65,16 +27,40 @@ static void FillBoard(Field[,] fields, int squareSize)
             }
         }
     }
+
+    // 1,2,4 and the squares are 4,6,8
+    if (squareSize == 4)
+    {
+        fields[1,1] = new Pit();
+        fields[2,3] = new Pit();
+    }
+    else if (squareSize == 6)
+    {
+        
+        fields[1,1] = new Pit();
+        fields[4,5] = new Pit();
+        fields[5,4] = new Pit();
+        
+    }
+    else if (squareSize == 8)
+    {
+        fields[2,1] = new Pit();
+        fields[4,2] = new Pit();
+        fields[4, 5] = new Pit();
+        fields[5, 4] = new Pit();
+        fields[5, 2] = new Pit();
+        fields[0,4] = new Pit();
+    }
 }
 
 //Ask the player how big the board should be:
 // then change the gameboard accordingly
 
 
-    Console.WriteLine("How big should the board be?");
-    Console.WriteLine("s for small: 4x4 sized");
-    Console.WriteLine("m for medium: 6x6 sized");
-    Console.WriteLine("l for large: 8x8 sized");
+Console.WriteLine("How big should the board be?");
+Console.WriteLine("s for small: 4x4 sized");
+Console.WriteLine("m for medium: 6x6 sized");
+Console.WriteLine("l for large: 8x8 sized");
 
 //why couldn't I use a switch statement here?
 do
@@ -101,23 +87,13 @@ do
     }
 } while (true); // this is not necessary more readable. the heck is this?
 
-
-
-
-
 //since the board is a square, we can simply cast int into it with no problems for further customization
-int squareSize = (int) Math.Sqrt(fields.Length);
-
+int squareSize = (int)Math.Sqrt(fields.Length);
 
 Gameboard gameboard = new Gameboard();
 FillBoard(fields, squareSize);
 
 new NarrativeText().Intro();
-
-
-
-
-
 
 while (true)
 {
@@ -128,21 +104,29 @@ while (true)
     }
     else if (player.GetPosition() == (0, squareSize / 2))
     {
-        FOO fountain = (FOO)fields[0, squareSize/2];
-        if (fields[0, squareSize/2 ]is FOO && fountain.GetEnabled() == false)
+        FOO fountain = (FOO)fields[0, squareSize / 2];
+        if (fields[0, squareSize / 2] is FOO && fountain.GetEnabled() == false)
         {
             new FountainText().FountainFoundDisabled();
-        }else if (fields[0,squareSize / 2]is FOO && fountain.GetEnabled() == true)
-        {
-            new FountainText().FountainFoundEnabled() ;
         }
+        else if (fields[0, squareSize / 2] is FOO && fountain.GetEnabled() == true)
+        {
+            new FountainText().FountainFoundEnabled();
+        }
+    }else if (fields[player.GetPosition().Item1, player.GetPosition().Item2] is Pit)
+    {
+        new NarrativeText().GetFallingIntoPitText();
+        break;
     }
 
     gameboard.DrawBoard(fields, player, squareSize);
+    if (player.PitIsNear(fields, squareSize) == true)
+    {
+        new NarrativeText().GetPitIsNearText();
+    }
 
     while (true)
     {
-
         var input = new InputText().GetInput();
         //first validate input for movement
         bool validatedInput = ValidateInputMovement(input);
@@ -162,28 +146,25 @@ while (true)
                 case "fountain disabled":
                     break;
                 default:
-                    if (input.Contains("move east") || input.Contains("move west") ||
-                        input.Contains("move south") || input.Contains("move north"))
+                    if (
+                        input.Contains("move east")
+                        || input.Contains("move west")
+                        || input.Contains("move south")
+                        || input.Contains("move north")
+                    ) { }
+                    else
                     {
-
-                    }else
-                    {
-                    new NarrativeText().GetInvalidInputText(input);
-
+                        new NarrativeText().GetInvalidInputText(input);
                     }
                     break;
-
             }
         }
         //then validate for interactions.
-        
     }
 }
 
-
-
 ///<summary>
-/// return 
+/// return
 ///</summary>
 string ValidateInputInteraction(string input)
 {
@@ -212,9 +193,8 @@ string ValidateInputInteraction(string input)
             {
                 new NarrativeText().GetInvalidInputInteractionCavern();
                 return "invalid input";
-
             }
-            
+
         // enable fountain if player is at the fountain
         //  if it is already enabled, tell the player it is already enabled
         //  if it is disabled, enable it
@@ -233,20 +213,19 @@ string ValidateInputInteraction(string input)
                     new FountainText().FountainEnabled();
                     return "fountain enabled";
                 }
-                
             }
             else
             {
                 new NarrativeText().GetInvalidInputOutsideFountain();
                 return "invalid input";
             }
-            
+
         // disable fountain if player is at the fountain
         //  if it is already disabled, tell the player it is already disabled
         //  if it is enabled, disable it
         // tell player the field is not the fountain
         case "disable fountain":
-            if (player.GetPosition() == (0,squareSize / 2))
+            if (player.GetPosition() == (0, squareSize / 2))
             {
                 if (fountain.GetEnabled() == true)
                 {
@@ -262,16 +241,15 @@ string ValidateInputInteraction(string input)
             }
             else
             {
-                new  NarrativeText().GetInvalidInputOutsideFountain();
+                new NarrativeText().GetInvalidInputOutsideFountain();
                 return "invalid input";
             }
-            
+
         // catch all for invalid input
         default:
             return "invalid default";
-        }
+    }
 }
-
 
 //
 bool ValidateInputMovement(string input)
@@ -280,7 +258,7 @@ bool ValidateInputMovement(string input)
     {
         case "move north":
             player.SetPosition((player.GetPosition().Item1 - 1, player.GetPosition().Item2));
-            if (IsEntityInGameField(player.GetPosition(),squareSize) == true)
+            if (IsEntityInGameField(player.GetPosition(), squareSize) == true)
             {
                 return true;
             }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Cryptography;
 
 namespace Fountain_of_Objects
 {
@@ -37,6 +33,125 @@ namespace Fountain_of_Objects
         {
             Position = (0, 0);
             Sign = "P";
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="fields"></param>
+        /// <returns></returns>
+        public bool PitIsNear(Field[,] fields, int squareSize)
+        {
+            //check base cases:
+
+            // upper left corner
+            if (Position.Item1 == 0 && Position.Item2 == 0)
+            {
+                if (
+                    fields[Position.Item1 + 1, Position.Item2] is Pit
+                    || fields[Position.Item1 + 1, Position.Item2 + 1] is Pit
+                    || fields[Position.Item1, Position.Item2 + 1] is Pit
+                )
+                {
+                    return true;
+                }
+            } // upper right corner
+            else if (Position.Item1 == 0 && Position.Item2 + 1 == squareSize)
+            {
+                if (
+                    fields[Position.Item1, Position.Item2 - 1] is Pit
+                    || fields[Position.Item1 + 1, Position.Item2 - 1] is Pit
+                    || fields[Position.Item1 + 1, Position.Item2] is Pit
+                )
+                {
+                    return true;
+                }
+            } // lower right corner
+            else if (Position.Item1 + 1 == squareSize && Position.Item2 + 1 == squareSize)
+            {
+                if (
+                    fields[Position.Item1 - 1, Position.Item2] is Pit
+                    || fields[Position.Item1 - 1, Position.Item2 - 1] is Pit
+                    || fields[Position.Item1, Position.Item2 - 1] is Pit
+                )
+                {
+                    return true;
+                }
+            } // lower left corner
+            else if (Position.Item1 + 1 == squareSize && Position.Item2 == 0)
+            {
+                if (
+                    fields[Position.Item1 - 1, Position.Item2] is Pit
+                    || fields[Position.Item1 - 1, Position.Item2 + 1] is Pit
+                    || fields[Position.Item1, Position.Item2] is Pit
+                )
+                {
+                    return true;
+                }
+            } // upper edge
+            else if (Position.Item1 == 0 && Position.Item2 != 0 && Position.Item2 + 1 != squareSize) // i tried to be more specific here, should I do the same below?
+            {
+                if (
+                    fields[Position.Item1, Position.Item2 - 1] is Pit
+                    || fields[Position.Item1 + 1, Position.Item2 - 1] is Pit
+                    || fields[Position.Item1 + 1, Position.Item2] is Pit
+                    || fields[Position.Item1 + 1, Position.Item2 + 1] is Pit
+                    || fields[Position.Item1, Position.Item2 + 1] is Pit
+                )
+                {
+                    return true;
+                }
+            } // right edge
+            else if (Position.Item1 != 0 && Position.Item1 + 1 != squareSize && Position.Item2 + 1 == squareSize)
+            {
+                if (
+                    fields[Position.Item1 - 1, Position.Item2] is Pit
+                    || fields[Position.Item1 - 1, Position.Item2 - 1] is Pit
+                    || fields[Position.Item1, Position.Item2 - 1] is Pit
+                    || fields[Position.Item1 + 1, Position.Item2 - 1] is Pit
+                    || fields[Position.Item1 + 1, Position.Item2] is Pit
+                )
+                {
+                    return true;
+                }
+            } // lower edge
+            else if (Position.Item1 + 1 == squareSize && Position.Item2+1 != squareSize && Position.Item2 != 0)
+            {
+                if (
+                    fields[Position.Item1, Position.Item2 + 1] is Pit
+                    || fields[Position.Item1 - 1, Position.Item2 + 1] is Pit
+                    || fields[Position.Item1 - 1, Position.Item2] is Pit
+                    || fields[Position.Item1 - 1, Position.Item2 - 1] is Pit
+                    || fields[Position.Item1, Position.Item2 - 1] is Pit
+                )
+                    return true;
+            } // left edge
+            else if (Position.Item1 != 0 && Position.Item1 + 1 != squareSize && Position.Item2 == 0)
+            {
+                if (
+                    fields[Position.Item1 + 1, Position.Item2] is Pit
+                    || fields[Position.Item1 + 1, Position.Item2 + 1] is Pit
+                    || fields[Position.Item1, Position.Item2 + 1] is Pit
+                    || fields[Position.Item1 - 1, Position.Item2 + 1] is Pit
+                    || fields[Position.Item1 - 1, Position.Item2] is Pit
+                )
+                    return true;
+            } // middle
+            else
+            {
+                if (
+                    fields[Position.Item1 + 1, Position.Item2] is Pit
+                    || fields[Position.Item1 + 1, Position.Item2 + 1] is Pit
+                    || fields[Position.Item1, Position.Item2 + 1] is Pit
+                    || fields[Position.Item1 - 1, Position.Item2 - 1] is Pit
+                    || fields[Position.Item1 - 1, Position.Item2] is Pit
+                    || fields[Position.Item1 - 1, Position.Item2 - 1] is Pit
+                    || fields[Position.Item1, Position.Item2 - 1] is Pit
+                    || fields[Position.Item1 + 1, Position.Item2 - 1] is Pit
+                )
+                    return true;
+            }
+            return false;
         }
     }
 }

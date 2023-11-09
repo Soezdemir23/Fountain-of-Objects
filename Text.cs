@@ -71,7 +71,7 @@ namespace Fountain_of_Objects
         internal void GetInvalidInputEnableFountain()
         {
             Console.ForegroundColor = Color;
-            Console.WriteLine("You tried enabling the fountain" );
+            Console.WriteLine("You tried enabling the fountain");
             Console.WriteLine("However, the fountain is already enabled");
             Console.ResetColor();
         }
@@ -87,8 +87,12 @@ namespace Fountain_of_Objects
         internal void GetInvalidInputOutsideFountain()
         {
             Console.ForegroundColor = Color;
-            Console.WriteLine("You tried to interact with the fountain from outside the fountain room");
-            Console.WriteLine("However, you can only enable or disable the fountain from inside the fountain room");
+            Console.WriteLine(
+                "You tried to interact with the fountain from outside the fountain room"
+            );
+            Console.WriteLine(
+                "However, you can only enable or disable the fountain from inside the fountain room"
+            );
             Console.ResetColor();
         }
 
@@ -101,7 +105,6 @@ namespace Fountain_of_Objects
             Console.WriteLine("You left a changed man, a shell of what you used to be.");
             Console.ResetColor();
         }
-
 
         internal void GetLeaveCavernDisabledFountain()
         {
@@ -126,6 +129,23 @@ namespace Fountain_of_Objects
             Console.WriteLine("You tried to interact with the fountain");
             Console.WriteLine("However, you have to interact directly with it.");
             Console.ResetColor();
+        }
+
+        internal void GetPitIsNearText()
+        {
+            Console.ForegroundColor= Color;
+            Console.WriteLine("It is too quiet, you might be near a pit.");
+            Console.ResetColor();
+        }
+
+        internal void GetFallingIntoPitText()
+        {
+            Console.ForegroundColor= Color;
+            Console.WriteLine("You fell into the pit and before you knew it, you splatted onto the ground");
+            Console.WriteLine("There were not enough Hero corpses fillin the pit to cushion your fall");
+            Console.WriteLine("You died");
+            Console.ResetColor();
+
         }
     }
 
@@ -196,12 +216,10 @@ namespace Fountain_of_Objects
 
         internal void FountainFoundDisabled()
         {
-
             Console.ForegroundColor = Color;
             Console.WriteLine("You hear water dripping in this room.");
             Console.WriteLine("The Fountain of Objects is here!");
             Console.ResetColor();
-
         }
 
         internal void FountainFoundEnabled()
