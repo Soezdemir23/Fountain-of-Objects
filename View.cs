@@ -12,7 +12,12 @@ namespace Fountain_of_Objects
         /// creates a 2d array of tiles
         /// default is one of 4x4
         /// </summary>
-        public void DrawBoard(Field[,] fields, Player player, int squareSize)
+        public void DrawBoard(
+            Field[,] fields,
+            Player player,
+            Maelstorm[] maelstorms,
+            int squareSize
+        )
         {
             for (int i = 0; i < squareSize; i++)
             {
@@ -22,6 +27,11 @@ namespace Fountain_of_Objects
                     {
                         player.GetLook();
                     }
+                    else if (SameCoordinate((i, k), maelstorms) == true)
+                    {
+                        //since we can just get the look of the enemy, we can do this:
+                        maelstorms[0].GetLook();
+                    }
                     else
                     {
                         fields[i, k].GetLook();
@@ -29,6 +39,18 @@ namespace Fountain_of_Objects
                 }
                 Console.WriteLine();
             }
+        }
+
+        public bool SameCoordinate((int, int) coordinate, Maelstorm[] maelstorms)
+        {
+            foreach (Maelstorm item in maelstorms)
+            {
+                if (item.GetPosition() == coordinate)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Fountain_of_Objects
+﻿namespace Fountain_of_Objects
 {
+    /// <summary>
+    /// Parent class Textcoloring, just assign the color of the Console characters.
+    /// </summary>
     public abstract class TextColoring
     {
         protected ConsoleColor Color { get; set; }
     }
 
+/// <summary>
+/// Self explanatory Narrativetext, that explains what's happening and the intros and game overs.
+/// ConsoleColor is Magenta
+/// </summary>
     public class NarrativeText : TextColoring
     {
         public NarrativeText() => Color = ConsoleColor.Magenta;
@@ -133,22 +133,49 @@ namespace Fountain_of_Objects
 
         internal void GetPitIsNearText()
         {
-            Console.ForegroundColor= Color;
+            Console.ForegroundColor = Color;
             Console.WriteLine("It is too quiet, you might be near a pit.");
             Console.ResetColor();
         }
 
         internal void GetFallingIntoPitText()
         {
-            Console.ForegroundColor= Color;
-            Console.WriteLine("You fell into the pit and before you knew it, you splatted onto the ground");
-            Console.WriteLine("There were not enough Hero corpses fillin the pit to cushion your fall");
+            Console.ForegroundColor = Color;
+            Console.WriteLine(
+                "You fell into the pit and before you knew it, you splatted onto the ground"
+            );
+            Console.WriteLine(
+                "There were not enough Hero corpses fillin the pit to cushion your fall"
+            );
             Console.WriteLine("You died");
             Console.ResetColor();
+        }
 
+        internal void GetMaelstormGust()
+        {
+            Console.ForegroundColor = Color;
+            Console.WriteLine("You entered the room with the Maelstorm");
+            Console.WriteLine("The Maelstorm anticipated you and sucked you into it's eye");
+            Console.WriteLine("Like an upwards inverse Tornado it spit you up to the north of you");
+            Console.WriteLine("The Storm has moved the opposition direction to hide from you");
+            Console.ResetColor();
+        }
+
+        internal void GetMaelstormIsNearText()
+        {
+            Console.ForegroundColor = Color;
+            Console.WriteLine(
+                "You feel the cold wind, but there is never been Wind recorded in the Caverns!"
+            );
+            Console.WriteLine("Maelstorms are near!");
+            Console.ResetColor();
         }
     }
 
+/// <summary>
+/// Descriptive Text is all about Describing important events like where the player is.
+/// White color 
+/// </summary>
     public class DescriptiveText : TextColoring
     {
         public DescriptiveText() => Color = ConsoleColor.White;
@@ -162,7 +189,10 @@ namespace Fountain_of_Objects
             Console.ResetColor();
         }
     }
-
+/// <summary>
+/// InputText is all about the input the player enters
+/// The text is yellow
+/// </summary>
     public class InputText : TextColoring
     {
         public InputText() => Color = ConsoleColor.Yellow;
@@ -181,7 +211,9 @@ namespace Fountain_of_Objects
             return input;
         }
     }
-
+    /// <summary>
+    /// CavernText is written with yellow color
+    /// </summary>
     public class CavernText : TextColoring
     {
         public CavernText() => Color = ConsoleColor.Yellow;
@@ -193,7 +225,9 @@ namespace Fountain_of_Objects
             Console.ResetColor();
         }
     }
-
+/// <summary>
+/// The FountainColor Text
+/// </summary>
     public class FountainText : TextColoring
     {
         public FountainText() => Color = ConsoleColor.Cyan;
