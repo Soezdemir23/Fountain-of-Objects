@@ -12,6 +12,8 @@ Currently a work in progress.
 - [x] Create Amaroks: Necrotizing masses of flesh that resemble carnivorous mammals, cursed to roam the caverns.
   - [x] Amaroks and Maelstorms need to be able to interact as well.
   - [x] Amaroks need to be able to fall into a pit.
-- [ ] Create Weapons: Weapons are used to incapacitate enemies for the whole duration.
-  - [ ] The only reasonable weapon in the game is a bow / arrow
+- [x] Create Weapons: Weapons are used to incapacitate enemies for the whole duration.
+  - [x] The only reasonable weapon in the game is a bow / arrow
+  - [x] It should only be able to incapacitate one amarok at a time.
 - [ ] Create help menu.
+- [ ] Clean up the game and make the flow less confusing.
