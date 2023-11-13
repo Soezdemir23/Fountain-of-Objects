@@ -8,10 +8,10 @@
         protected ConsoleColor Color { get; set; }
     }
 
-/// <summary>
-/// Self explanatory Narrativetext, that explains what's happening and the intros and game overs.
-/// ConsoleColor is Magenta
-/// </summary>
+    /// <summary>
+    /// Self explanatory Narrativetext, that explains what's happening and the intros and game overs.
+    /// ConsoleColor is Magenta
+    /// </summary>
     public class NarrativeText : TextColoring
     {
         public NarrativeText() => Color = ConsoleColor.Magenta;
@@ -57,6 +57,14 @@
             Console.WriteLine("You were delirious and didn't know what you thought.");
             Console.WriteLine("I, the narrator, have noted down what you tried: " + input);
             Console.WriteLine("You are still in the same room.");
+            Console.ResetColor();
+        }
+
+        internal void GetInvalidMovementText()
+        {
+            Console.ForegroundColor = Color;
+            Console.WriteLine("You tried to move, but couldn't");
+            Console.WriteLine("You have to focus on what you have to do");
             Console.ResetColor();
         }
 
@@ -154,8 +162,17 @@
         internal void GetMaelstormGust()
         {
             Console.ForegroundColor = Color;
-            Console.WriteLine("You entered the room with the Maelstorm");
-            Console.WriteLine("The Maelstorm anticipated you and sucked you into it's eye");
+            Console.WriteLine("You entered the room with the ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("Maelstorm");
+            Console.ForegroundColor = Color;
+            Console.WriteLine("The ");
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("Maelstorm");
+
+            Console.ForegroundColor = Color;
+            Console.WriteLine(" anticipated you and sucked you into it's eye");
             Console.WriteLine("Like an upwards inverse Tornado it spit you up to the north of you");
             Console.WriteLine("The Storm has moved the opposition direction to hide from you");
             Console.ResetColor();
@@ -167,15 +184,66 @@
             Console.WriteLine(
                 "You feel the cold wind, but there is never been Wind recorded in the Caverns!"
             );
-            Console.WriteLine("Maelstorms are near!");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("Maelstorms");
+            Console.ForegroundColor = Color;
+            Console.WriteLine(" are near!");
+            Console.ResetColor();
+        }
+
+        internal void GetAmarokIsNearText()
+        {
+            Console.ForegroundColor = Color;
+            Console.WriteLine(
+                "You hear the cacophony of pained voices, snarls, shouts in disharmony"
+            );
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Amarok");
+            Console.ForegroundColor = Color;
+            Console.WriteLine(" are looking for another victim to add to their mass of flesh.");
+            Console.ResetColor();
+        }
+
+        internal void GetAmarokIsBlownAway(){
+            Console.ForegroundColor = Color;
+            Console.Write("An ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Amarok");
+            Console.ForegroundColor = Color;
+            Console.Write(" is being pulled in and spit by a");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Amarok.");
+            Console.ResetColor();
+        }
+
+        internal void GetAmarokFallingIntoPit(){
+            Console.ForegroundColor = Color;
+            Console.WriteLine("You hear a distant symphony of confused screaming");
+            Console.WriteLine("You hear a loud 'SPLAT' within one of the pits");
+            Console.ResetColor();
+        }
+
+        internal void GetPlayerGetsEatenByAmaroks(){
+            Console.ForegroundColor = Color;
+            Console.WriteLine("As you entered the same room as the Amarok, a primal fear has shook you from within!");
+            Console.WriteLine("While it walked on 4 legs like a carnivore, that was the only thing that resembled a dog or wolf");
+            Console.WriteLine("Mouths where they shouldn't be.");
+            Console.WriteLine("Teeth where they shouldn't be.");
+            Console.WriteLine("Voices that shouldn't be");
+            Console.WriteLine("Faces that shouldn't be.");
+            Console.WriteLine("One of the Amarok's faces saw you, and the whole creature directed it's focus on your paralyzed self");
+            Console.WriteLine("It started running towards you, faster than what you hunted before.");
+            Console.WriteLine("The faces gave away to a maw that opened itself so wide, you could see the beating insides of the creature.");
+            Console.WriteLine("Bones and spines, teeth like structures grew from the inside as it jumped on you and seperated your upper body from the reste with a crunch");
+            Console.WriteLine("You died, becoming one of the many faces of the amarok, roaming the caverns.");
             Console.ResetColor();
         }
     }
 
-/// <summary>
-/// Descriptive Text is all about Describing important events like where the player is.
-/// White color 
-/// </summary>
+    /// <summary>
+    /// Descriptive Text is all about Describing important events like where the player is.
+    /// White color
+    /// </summary>
     public class DescriptiveText : TextColoring
     {
         public DescriptiveText() => Color = ConsoleColor.White;
@@ -189,10 +257,11 @@
             Console.ResetColor();
         }
     }
-/// <summary>
-/// InputText is all about the input the player enters
-/// The text is yellow
-/// </summary>
+
+    /// <summary>
+    /// InputText is all about the input the player enters
+    /// The text is yellow
+    /// </summary>
     public class InputText : TextColoring
     {
         public InputText() => Color = ConsoleColor.Yellow;
@@ -211,6 +280,7 @@
             return input;
         }
     }
+
     /// <summary>
     /// CavernText is written with yellow color
     /// </summary>
@@ -225,9 +295,10 @@
             Console.ResetColor();
         }
     }
-/// <summary>
-/// The FountainColor Text
-/// </summary>
+
+    /// <summary>
+    /// The FountainColor Text
+    /// </summary>
     public class FountainText : TextColoring
     {
         public FountainText() => Color = ConsoleColor.Cyan;
