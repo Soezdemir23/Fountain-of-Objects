@@ -41,6 +41,8 @@ namespace Fountain_of_Objects
         /// <returns>the aliveness of the character</returns>
         public bool GetIsAlive() => isAlive;
 
+        public void SetIsAlive(bool alive) => isAlive = alive;
+
         /// <summary>
         /// Returns the position of the entity
         /// </summary>
@@ -75,6 +77,8 @@ namespace Fountain_of_Objects
     /// </summary>
     public class Player : Entity
     {
+        private int arrows = 5;
+
         /// <summary>
         /// The constructor assigns the position and the Sign of the Player class
         /// when instantiated.
@@ -85,8 +89,32 @@ namespace Fountain_of_Objects
             Sign = "P";
         }
 
-       
+        public bool CanShootArrow()
+        {
+            if (arrows == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public void ShootArrow(){
+            if (arrows > 0 )
+            {
+                arrows--;
+            }
+
+        }
+
+        public int GetArrows()
+        {
+            return arrows;
+        }
     }
+
     /// <summary>
     /// The Maelstrom also inherits from the Entity
     /// Unlike the player, it's skill has been transferred to the Logic part.
@@ -124,5 +152,6 @@ namespace Fountain_of_Objects
             Sign = "Å";
             isAlive = true;
         }
+
     }
 }
