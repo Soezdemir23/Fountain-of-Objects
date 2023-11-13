@@ -182,7 +182,7 @@ namespace Logic
 
             while (true)
             {
-                new DescriptiveText().WhereAbout(player.GetPosition());
+                new DescriptiveText().WhereAbout(player.GetPosition(), player);
                 if (player.GetPosition() == (0, 0))
                 {
                     new CavernText().Entrance();
@@ -254,6 +254,19 @@ namespace Logic
                                 return;
                             case "fountain enabled":
                             case "fountain disabled":
+                                break;
+                            case "shot":
+                                new NarrativeText().GetAmarokGotShot();
+                                
+                                break;
+                            case "missed":
+                                new NarrativeText().GetShotMissed();
+                                break;
+                            case "cancelled":
+                                new NarrativeText().GetCancelled();
+                                break;
+                            case "no arrows":
+                                new NarrativeText().GetNoArrows();
                                 break;
                             default:
                                 if (input.Contains("move") || input.Contains("mov"))
@@ -457,7 +470,138 @@ namespace Logic
                         new NarrativeText().GetInvalidInputOutsideFountain();
                         return "invalid input";
                     }
+                case "shoot arrow":
+                    string direction = new NarrativeText().WhereToShoot();
+                    var x = player.GetPosition().Item1;
+                    var y = player.GetPosition().Item2;
+                    bool shot = false;
+                    if (player.CanShootArrow() == true)
+                    {
 
+
+                    if (direction == "north"){
+                        // if this was a single amarok, we could just check and break out.
+                        // but we are having an amarok array
+                        // if it is found, immediately set amarok.IsAlive to false and break;
+                        foreach (var amarok in amaroks)
+                        {
+                            // go through each field up to north
+                            for (int i = x; i >= 0; i--)
+                            {
+                                // if there is an amarok that is in that direction, set the amarok isAlive to falses
+                                // get out of the loop
+                                if ((i,y) == amarok.GetPosition())
+                                {
+                                    amarok.SetIsAlive(false);
+                                    shot = true;
+                                    break;
+                                }
+                            }
+                            //if that amarok isAlive property is false: break out of this foreach loop
+                            if (amarok.GetIsAlive() == false) break;
+                        }
+                    }
+                    else if (direction == "south")
+                    {
+                        // if this was a single amarok, we could just check and break out.
+                        // but we are having an amarok array
+                        // if it is found, immediately set amarok.IsAlive to false and break;
+                        foreach (var amarok in amaroks)
+                        {
+                            // go through each field up to north
+                            for (int i = x; i < squareSize; i++)
+                            {
+                                // if there is an amarok that is in that direction, set the amarok isAlive to falses
+                                // get out of the loop
+                                if ((i,y) == amarok.GetPosition())
+                                {
+                                    amarok.SetIsAlive(false);
+                                    shot = true;
+                                    break;
+                                }
+                            }
+                            //if that amarok isAlive property is false: break out of this foreach loop
+                            if (amarok.GetIsAlive() == false) break;
+                        }
+                      
+                    }
+                    else if (direction == "west")
+                    {                        
+
+                        // if this was a single amarok, we could just check and break out.
+                        // but we are having an amarok array
+                        // if it is found, immediately set amarok.IsAlive to false and break;
+                        foreach (var amarok in amaroks)
+                        {
+                            // go through each field up to north
+                            for (int i = y; i >= 0; i--)
+                            {
+                                // if there is an amarok that is in that direction, set the amarok isAlive to falses
+                                // get out of the loop
+                                if ((x,i) == amarok.GetPosition())
+                                {
+                                    amarok.SetIsAlive(false);
+                                    shot = true;
+                                    break;
+                                }
+                            }
+                            //if that amarok isAlive property is false: break out of this foreach loop
+                            if (amarok.GetIsAlive() == false) break;
+                        }
+                    }
+                    else if (direction == "east")
+                    {
+                        // if this was a single amarok, we could just check and break out.
+                        // but we are having an amarok array
+                        // if it is found, immediately set amarok.IsAlive to false and break;
+                        foreach (var amarok in amaroks)
+                        {
+                            // go through each field up to north
+                            for (int i = y; i < squareSize; i++)
+                            {
+                                // if there is an amarok that is in that direction, set the amarok isAlive to falses
+                                // get out of the loop
+                                if ((i,y) == amarok.GetPosition())
+                                {
+                                    amarok.SetIsAlive(false);
+                                    shot = true;
+                                    break;
+                                }
+                            }
+                            //if that amarok isAlive property is false: break out of this foreach loop
+                            if (amarok.GetIsAlive() == false) break;
+                        }
+                    }
+
+                      // if it got shot, then go into this body to remove it from the array
+                        if(shot == true){
+                            // remove by one, since arrows aren't gibbing weapons
+                            Amarok[] newAmarok = new Amarok[amaroks.Length-1];
+                            //now cycle through amaroks and add any amarok still alive to the new array.
+                            int count = 0;
+                            for (int i = 0; i < amaroks.Length; i++)
+                            {
+                                if (amaroks[i].GetIsAlive() != false){
+                                    newAmarok[count] = amaroks[i];
+                                    count++;
+                                }
+                            }
+                            // assign the newAmarok to amaroks.
+                            amaroks = newAmarok;
+
+                            player.ShootArrow();
+                            return "shot";
+                        }
+                        else if(direction == "cancel")
+                        {
+                            return "cancelled";
+                        }
+                        else 
+                        {
+                            player.ShootArrow();
+                            return "missed";
+                        }
+                    }return "no arrows";
                 // catch all for invalid input
                 default:
                     return "invalid default";
@@ -639,6 +783,10 @@ namespace Logic
                 }
             }
         }
+
+
+
+        
 
         /// <summary>
         /// Entities need to be able to sense Field objects in a 2d Array without blowing up in our faces.
