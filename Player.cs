@@ -42,7 +42,7 @@ namespace Fountain_of_Objects
         public bool GetIsAlive() => isAlive;
 
         /// <summary>
-        /// Returns the
+        /// Returns the position of the entity
         /// </summary>
         /// <returns></returns>
         public (int, int) GetPosition() => Position;
@@ -58,6 +58,7 @@ namespace Fountain_of_Objects
             Console.Write(Sign);
             Console.ResetColor();
         }
+
         /// <summary>
         /// Set the position of the player in the grid
         /// </summary>
@@ -67,6 +68,7 @@ namespace Fountain_of_Objects
             this.Position = position;
         }
     }
+
     /// <summary>
     /// Player class inheriting from Entity
     /// The Player class is used by the player, duh :)
@@ -83,162 +85,44 @@ namespace Fountain_of_Objects
             Sign = "P";
         }
 
-        /// <summary>
-        /// This function should be moved to the Program.cs site tbh.
-        /// </summary>
-        /// <param name="fields">the 2d-array that the player has to reside in</param>
-        /// <param name="squareSize">the length of a square to check base cases</param>
-        /// <param name="field">The type of the field the player is checking for</param>
-        /// <returns>
-        /// Returns true if the player finds a Field type that he needs to be wary of.
-        /// Else returns false.
-        /// </returns>
-        public bool IsNear(Field[,] fields, int squareSize, Type field)
-        {
-            //check base cases:
-
-            // upper left corner
-            if (Position.Item1 == 0 && Position.Item2 == 0)
-            {
-                if (
-                    fields[Position.Item1 + 1, Position.Item2].GetType() == field
-                    || fields[Position.Item1 + 1, Position.Item2 + 1].GetType() == field
-                    || fields[Position.Item1, Position.Item2 + 1].GetType() == field
-                )
-                {
-                    return true;
-                }
-            } // upper right corner
-            else if (Position.Item1 == 0 && Position.Item2 + 1 == squareSize)
-            {
-                if (
-                    fields[Position.Item1, Position.Item2 - 1].GetType() == field
-                    || fields[Position.Item1 + 1, Position.Item2 - 1].GetType() == field
-                    || fields[Position.Item1 + 1, Position.Item2].GetType() == field
-                )
-                {
-                    return true;
-                }
-            } // lower right corner
-            else if (Position.Item1 + 1 == squareSize && Position.Item2 + 1 == squareSize)
-            {
-                if (
-                    fields[Position.Item1 - 1, Position.Item2].GetType() == field
-                    || fields[Position.Item1 - 1, Position.Item2 - 1].GetType() == field
-                    || fields[Position.Item1, Position.Item2 - 1].GetType() == field
-                )
-                {
-                    return true;
-                }
-            } // lower left corner
-            else if (Position.Item1 + 1 == squareSize && Position.Item2 == 0)
-            {
-                if (
-                    fields[Position.Item1 - 1, Position.Item2].GetType() == field
-                    || fields[Position.Item1 - 1, Position.Item2 + 1].GetType() == field
-                    || fields[Position.Item1, Position.Item2].GetType() == field
-                )
-                {
-                    return true;
-                }
-            } // upper edge
-            else if (Position.Item1 == 0 && Position.Item2 != 0 && Position.Item2 + 1 != squareSize) // i tried to be more specific here, should I do the same below?
-            {
-                if (
-                    fields[Position.Item1, Position.Item2 - 1].GetType() == field
-                    || fields[Position.Item1 + 1, Position.Item2 - 1].GetType() == field
-                    || fields[Position.Item1 + 1, Position.Item2].GetType() == field
-                    || fields[Position.Item1 + 1, Position.Item2 + 1].GetType() == field
-                    || fields[Position.Item1, Position.Item2 + 1].GetType() == field
-                )
-                {
-                    return true;
-                }
-            } // right edge
-            else if (
-                Position.Item1 != 0
-                && Position.Item1 + 1 != squareSize
-                && Position.Item2 + 1 == squareSize
-            )
-            {
-                if (
-                    fields[Position.Item1 - 1, Position.Item2].GetType() == field
-                    || fields[Position.Item1 - 1, Position.Item2 - 1].GetType() == field
-                    || fields[Position.Item1, Position.Item2 - 1].GetType() == field
-                    || fields[Position.Item1 + 1, Position.Item2 - 1].GetType() == field
-                    || fields[Position.Item1 + 1, Position.Item2].GetType() == field
-                )
-                {
-                    return true;
-                }
-            } // lower edge
-            else if (
-                Position.Item1 + 1 == squareSize
-                && Position.Item2 + 1 != squareSize
-                && Position.Item2 != 0
-            )
-            {
-                if (
-                    fields[Position.Item1, Position.Item2 + 1].GetType() == field
-                    || fields[Position.Item1 - 1, Position.Item2 + 1].GetType() == field
-                    || fields[Position.Item1 - 1, Position.Item2].GetType() == field
-                    || fields[Position.Item1 - 1, Position.Item2 - 1].GetType() == field
-                    || fields[Position.Item1, Position.Item2 - 1].GetType() == field
-                )
-                    return true;
-            } // left edge
-            else if (Position.Item1 != 0 && Position.Item1 + 1 != squareSize && Position.Item2 == 0)
-            {
-                if (
-                    fields[Position.Item1 + 1, Position.Item2].GetType() == field
-                    || fields[Position.Item1 + 1, Position.Item2 + 1].GetType() == field
-                    || fields[Position.Item1, Position.Item2 + 1].GetType() == field
-                    || fields[Position.Item1 - 1, Position.Item2 + 1].GetType() == field
-                    || fields[Position.Item1 - 1, Position.Item2].GetType() == field
-                )
-                    return true;
-            } // middle
-            else
-            {
-                if (
-                    fields[Position.Item1 + 1, Position.Item2].GetType() == field
-                    || fields[Position.Item1 + 1, Position.Item2 + 1].GetType() == field
-                    || fields[Position.Item1, Position.Item2 + 1].GetType() == field
-                    || fields[Position.Item1 - 1, Position.Item2 - 1].GetType() == field
-                    || fields[Position.Item1 - 1, Position.Item2].GetType() == field
-                    || fields[Position.Item1 - 1, Position.Item2 - 1].GetType() == field
-                    || fields[Position.Item1, Position.Item2 - 1].GetType() == field
-                    || fields[Position.Item1 + 1, Position.Item2 - 1].GetType() == field
-                )
-                    return true;
-            }
-            return false;
-        }
+       
     }
     /// <summary>
     /// The Maelstrom also inherits from the Entity
     /// Unlike the player, it's skill has been transferred to the Logic part.
     /// </summary>
     public class Maelstorm : Entity
-        {
-            /// <summary>
-            /// Unlike the Player entity, the starting point can be custom here
-            /// That makes it easier to place them
-            /// </summary>
-            /// <param name="position">(int,int) inside the game map</param>
+    {
+        /// <summary>
+        /// Unlike the Player entity, the starting point can be custom here
+        /// That makes it easier to place them
+        /// </summary>
+        /// <param name="position">(int,int) inside the game map</param>
         public Maelstorm((int, int) position)
         {
             Position = position;
             Sign = "M";
+            isAlive = true;
         }
-/// <summary>
-/// Get the look of the Maelstorm, it is 'M' in Blue
-/// </summary>
+
+        /// <summary>
+        /// Get the look of the Maelstorm, it is 'M' in Blue
+        /// </summary>
         public override void GetLook()
         {
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write(Sign);
             Console.ResetColor();
+        }
+    }
+
+    public class Amarok : Entity
+    {
+        public Amarok((int, int) position)
+        {
+            Position = position;
+            Sign = "Å";
+            isAlive = true;
         }
     }
 }
