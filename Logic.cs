@@ -174,8 +174,6 @@ namespace Logic
         /// Gives an intro, draws the map, explains where the player is.
         /// Draws the map, checks for surrounding pits, enemies and other notable
         /// events.
-        ///
-        ///
         /// </summary>
         public void StartGame()
         {
@@ -206,23 +204,18 @@ namespace Logic
                     new NarrativeText().GetFallingIntoPitText();
                     break;
                 }
-            
+
                 // draw the maelstorma and also the amarok
                 gameboard.DrawBoard(fields, player, amaroks, maelstorms, squareSize);
                 // check if the player is on a boundary to pit fields, or it blows up in our face
-                if (EntityIsNearBoundary(fields, squareSize, typeof(Pit), player) == true)
+                if (EntityIsSensingFields(fields, squareSize, typeof(Pit), player) == true)
                 {
                     new NarrativeText().GetPitIsNearText();
                 }
 
-
-                
+                //check for Enemies around the player
                 EntityIsNear(amaroks);
                 EntityIsNear(maelstorms);
-
-
-
-
 
 
                 while (true)
@@ -242,7 +235,8 @@ namespace Logic
                         }
                         foreach (Amarok amarok in amaroks)
                         {
-                            if (player.GetPosition() == amarok.GetPosition()){
+                            if (player.GetPosition() == amarok.GetPosition())
+                            {
                                 new NarrativeText().GetPlayerGetsEatenByAmaroks();
                                 return;
                             }
@@ -276,79 +270,111 @@ namespace Logic
                     //then add a for each for the amaroks, since they move
                     // could be extracted into their own method and then simplified again.
                 }
-                foreach (var amarok in amaroks)
-                    {
-                        int x = amarok.GetPosition().Item1;
-                        int y = amarok.GetPosition().Item2;
-                        // x position:
-                        //randomize if the amarok walks negative or positive
-                        //if 0 => negative
-                        var xRandom = new Random().Next(1);
-                        if (xRandom == 0){
-                            //if x-1 is < 0, then do the opposite and add
-                            if (x - 1 < 0){
-                                x += 1;
-                            }else{
-                                x -=1;
-                            }
-                        }// if 1 => positive
-                        else{
-                            if (x + 1 > squareSize-1){
-                                x-=1;
-                            }else{
-                                x+=1;
-                            }
-                        }
+                AmarokBehavior();
+            }
+        }
 
-                        var yRandom = new Random().Next(1);
-                        if (yRandom == 0){
-                            //if x-1 is < 0, then do the opposite and add
-                            if (y - 1 < 0){
-                                y += 1;
-                            }else{
-                                y -=1;
-                            }
-                        }// if 1 => positive
-                        else{
-                            if (y + 1 > squareSize-1){
-                                y-=1;
-                            }else{
-                                y+=1;
-                            }
-                        }
-                        // now set it to the amarok
-                        amarok.SetPosition((x,y));
-                        //now Blow Amarok away if they are near maelstorms
-                        foreach (var maelstorm in maelstorms)
+
+        /// <summary>
+        /// The Amarok's movement and subsequent consequences of it doing so are handled here.
+        /// The Amarok moves.
+        /// The Amarok gets blasted away by the Maelstorm
+        /// The Amarok dies from falling into a pit
+        /// </summary>
+        private void AmarokBehavior()
+        {
+            foreach (var amarok in amaroks)
+            {
+                int x = amarok.GetPosition().Item1;
+                int y = amarok.GetPosition().Item2;
+                // x position:
+                //randomize if the amarok walks negative or positive
+                //if 0 => negative
+                var xRandom = new Random().Next(1);
+                if (xRandom == 0)
+                {
+                    //if x-1 is < 0, then do the opposite and add
+                    if (x - 1 < 0)
+                    {
+                        x += 1;
+                    }
+                    else
+                    {
+                        x -= 1;
+                    }
+                }// if 1 => positive
+                else
+                {
+                    if (x + 1 > squareSize - 1)
+                    {
+                        x -= 1;
+                    }
+                    else
+                    {
+                        x += 1;
+                    }
+                }
+
+                var yRandom = new Random().Next(1);
+                if (yRandom == 0)
+                {
+                    //if x-1 is < 0, then do the opposite and add
+                    if (y - 1 < 0)
+                    {
+                        y += 1;
+                    }
+                    else
+                    {
+                        y -= 1;
+                    }
+                }// if 1 => positive
+                else
+                {
+                    if (y + 1 > squareSize - 1)
+                    {
+                        y -= 1;
+                    }
+                    else
+                    {
+                        y += 1;
+                    }
+                }
+                // now set it to the amarok
+                amarok.SetPosition((x, y));
+                //now Blow Amarok away if they are near maelstorms
+                foreach (var maelstorm in maelstorms)
+                {
+                    if (maelstorm.GetPosition() == amarok.GetPosition())
+                    {
+                        new NarrativeText().GetAmarokIsBlownAway();
+                        BlowEntityAway(maelstorm, amarok);
+                    }
+                }
+                if (fields[x, y] is Pit)
+                {
+                    new NarrativeText().GetAmarokFallingIntoPit();
+                    // let's do some iterative mutating to get rid of the "dead" Amarok
+                    Amarok[] newAmarokList = new Amarok[amaroks.Length - 1];
+                    // there should be an easier way without using Lists I hope. works like te filter in JS
+                    int count = 0;
+                    for (int i = 0; i < amaroks.Length; i++)
+                    {
+                        // the amarok is already in the coordinate where the pit i
+                        // we just have to filter it out into that new array
+                        // then overwrite amaroks with that one.
+                        if (amaroks[i].GetPosition() != (x, y))
                         {
-                            if (maelstorm.GetPosition() == amarok.GetPosition()){
-                                new NarrativeText().GetAmarokIsBlownAway();
-                                BlowEntityAway(maelstorm, amarok);
-                            }
-                        }
-                        if (fields[x,y] is Pit){
-                            new NarrativeText().GetAmarokFallingIntoPit();
-                            // let's do some iterative mutating to get rid of the "dead" Amarok
-                            Amarok[] newAmarokList = new Amarok[amaroks.Length - 1];
-                            // there should be an easier way without using Lists I hope and I just don't know
-                            int count = 0;
-                            for (int i = 0; i < amaroks.Length; i++)
-                            {
-                                // the amarok is already in the coordinate where the pit i
-                                // we just have to filter it out into that new array
-                                // then overwrite amaroks with that one.
-                                if (amaroks[i].GetPosition() != (x,y)){
-                                    newAmarokList[count] = amaroks[i];
-                                }
-                            }
-                            amaroks = newAmarokList;
+                            newAmarokList[count] = amaroks[i];
                         }
                     }
+                    amaroks = newAmarokList;
+                }
             }
         }
 
         /// <summary>
         /// Validates input regarding interacting with the world.
+        /// Caverns, Fountains
         ///
         /// </summary>
         /// <param name="input">the input the player entered</param>
@@ -608,7 +634,8 @@ namespace Logic
         }
 
         /// <summary>
-        /// This function should be moved to the Program.cs site tbh.
+        /// Entities need to be able to sense Field objects in a 2d Array without blowing up in our faces.
+        
         /// </summary>
         /// <param name="fields">the 2d-array that the player has to reside in</param>
         /// <param name="squareSize">the length of a square to check base cases</param>
@@ -617,7 +644,7 @@ namespace Logic
         /// Returns true if the player finds a Field type that he needs to be wary of.
         /// Else returns false.
         /// </returns>
-        public bool EntityIsNearBoundary(Field[,] fields, int squareSize, Type field, Entity entity)
+        public bool EntityIsSensingFields(Field[,] fields, int squareSize, Type field, Entity entity)
         {
             //check base cases:
 
