@@ -204,7 +204,8 @@
             Console.ResetColor();
         }
 
-        internal void GetAmarokIsBlownAway(){
+        internal void GetAmarokIsBlownAway()
+        {
             Console.ForegroundColor = Color;
             Console.Write("An ");
             Console.ForegroundColor = ConsoleColor.Red;
@@ -216,27 +217,102 @@
             Console.ResetColor();
         }
 
-        internal void GetAmarokFallingIntoPit(){
+        internal void GetAmarokFallingIntoPit()
+        {
             Console.ForegroundColor = Color;
             Console.WriteLine("You hear a distant symphony of confused screaming");
             Console.WriteLine("You hear a loud 'SPLAT' within one of the pits");
             Console.ResetColor();
+            
         }
 
-        internal void GetPlayerGetsEatenByAmaroks(){
+        internal void GetPlayerGetsEatenByAmaroks()
+        {
             Console.ForegroundColor = Color;
-            Console.WriteLine("As you entered the same room as the Amarok, a primal fear has shook you from within!");
-            Console.WriteLine("While it walked on 4 legs like a carnivore, that was the only thing that resembled a dog or wolf");
+            Console.WriteLine(
+                "As you entered the same room as the Amarok, a primal fear has shook you from within!"
+            );
+            Console.WriteLine(
+                "While it walked on 4 legs like a carnivore, that was the only thing that resembled a dog or wolf"
+            );
             Console.WriteLine("Mouths where they shouldn't be.");
             Console.WriteLine("Teeth where they shouldn't be.");
             Console.WriteLine("Voices that shouldn't be");
             Console.WriteLine("Faces that shouldn't be.");
-            Console.WriteLine("One of the Amarok's faces saw you, and the whole creature directed it's focus on your paralyzed self");
-            Console.WriteLine("It started running towards you, faster than what you hunted before.");
-            Console.WriteLine("The faces gave away to a maw that opened itself so wide, you could see the beating insides of the creature.");
-            Console.WriteLine("Bones and spines, teeth like structures grew from the inside as it jumped on you and seperated your upper body from the reste with a crunch");
-            Console.WriteLine("You died, becoming one of the many faces of the amarok, roaming the caverns.");
+            Console.WriteLine(
+                "One of the Amarok's faces saw you, and the whole creature directed it's focus on your paralyzed self"
+            );
+            Console.WriteLine(
+                "It started running towards you, faster than what you hunted before."
+            );
+            Console.WriteLine(
+                "The faces gave away to a maw that opened itself so wide, you could see the beating insides of the creature."
+            );
+            Console.WriteLine(
+                "Bones and spines, teeth like structures grew from the inside as it jumped on you and seperated your upper body from the reste with a crunch"
+            );
+            Console.WriteLine(
+                "You died, becoming one of the many faces of the amarok, roaming the caverns."
+            );
             Console.ResetColor();
+        }
+
+
+        internal string? WhereToShoot(){
+            
+            while(true){
+
+                Console.ForegroundColor = Color;
+                Console.WriteLine("In which direction are you aiming your bow at?");
+                Console.WriteLine("north");
+                Console.WriteLine("west");
+                Console.WriteLine("east");
+                Console.WriteLine("south");
+                Console.WriteLine("cancel");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                var result = Console.ReadLine();
+                if (result == "cancel" || result == "north"|| result == "west" || result == "east" || result == "south")
+                {
+                    return result;
+                }
+                Console.ForegroundColor = Color;
+                Console.WriteLine("You entered something wrong. If you wanted to exit, just type cancel.");
+            }
+        }
+
+        internal void GetAmarokGotShot()
+        {
+            Console.ForegroundColor = Color;
+            Console.WriteLine("You pulled the arrow out of your arrow sheath and readied your bow.");
+            Console.WriteLine("As you pulled your bow, the distant Amarok recognized you");
+            Console.WriteLine($"It started to run to your direction, not understanding that you will end its suffering");
+            Console.WriteLine($"You shot the arrow and it landed on it, piercing through the cancer ridden flesh");
+            Console.WriteLine($"Blood sprayed around and it fell dead with a whine of relief");
+            Console.ResetColor();
+        }
+
+        internal void GetShotMissed()
+        {
+            Console.ForegroundColor = Color;
+            Console.WriteLine($"You missed the shot and winced as it made a loud 'CLINK.");
+            Console.WriteLine($"You KNOW the arrow is broken AND made a loud sound that might have alerted somebody.");
+            Console.WriteLine($"You hope it was not heard.");
+            Console.ResetColor();
+        }
+
+        internal void GetCancelled()
+        {
+            Console.ForegroundColor = Color;
+            Console.WriteLine($"You decided it was not the right time to draw the arrow and continued to survey your surroundings.");
+            Console.ResetColor();
+        }
+
+        internal void GetNoArrows()
+        {
+            Console.ForegroundColor = Color;
+            Console.WriteLine($"You have no arrows left!");
+            Console.ResetColor();
+            
         }
     }
 
@@ -248,12 +324,14 @@
     {
         public DescriptiveText() => Color = ConsoleColor.White;
 
-        public void WhereAbout((int, int) Position)
+        public void WhereAbout((int, int) Position, Player player)
         {
             Console.ForegroundColor = Color;
             Console.WriteLine(
                 $"You are in the room at (Row={Position.Item1}, Column={Position.Item2})."
             );
+            Console.WriteLine($"You have {player.GetArrows()} Arrows left");
+            
             Console.ResetColor();
         }
     }
