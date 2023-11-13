@@ -10,7 +10,7 @@ namespace Fountain_of_Objects
     {
         /// <summary>
         /// creates a 2d array of tiles
-        /// default is one of 4x4
+        /// It draws a 4x4, 6x6, 8x8 field
         /// </summary>
         public void DrawBoard(
             Field[,] fields,
@@ -45,12 +45,19 @@ namespace Fountain_of_Objects
                 Console.WriteLine();
             }
         }
-
+        /// <summary>
+        /// Helper function for <see cref="DrawBoard(Field[,], Player, Amarok[], Maelstorm[], int)"/>.
+        /// Checks if the given coordinate from DrawBoard is equal to the entity.
+        /// 
+        /// </summary>
+        /// <param name="coordinate"></param>
+        /// <param name="entities"></param>
+        /// <returns></returns>
         public bool SameCoordinate((int, int) coordinate, Entity[] entities)
         {
-            foreach (Entity item in entities)
+            foreach (Entity entity in entities)
             {
-                if (item.GetPosition() == coordinate && item.GetIsAlive() == true)
+                if (entity.GetPosition() == coordinate)
                 {
                     return true;
                 }
