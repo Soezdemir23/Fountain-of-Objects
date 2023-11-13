@@ -1,8 +1,8 @@
+using System.Reflection.Metadata;
 using Fountain_of_Objects;
 
 namespace Logic
 {
-
     /// <summary>
     /// The Game Class contains all the logical parts of the game and fuses them
     /// together in the constructor as it is instantiated.
@@ -13,41 +13,52 @@ namespace Logic
         /// Player object
         /// </summary>
         Player player = new();
+
         /// <summary>
-        /// Maelstorm Array is fully instantiated when the size of the array is determined.
+        /// Maelstorm Array is fully instantiated after the <
         /// Can be null, logically will never happen inside the game
         /// </summary>
         Maelstorm[]? maelstorms;
+
+        /// <summary>
+        /// Just like Maelstorm Array, the size and instantiation of the array is determined in the <see cref="FillBoard(Field[,], int)"/> method
+        /// </summary>
+        Amarok[]? amaroks;
+
         /// <summary>
         /// The field where the game takes place.
         /// Can be nullable, never gonna happen after asking the player for the size
         /// of the board.
         /// </summary>
         Field[,]? fields;
+
         /// <summary>
         /// Responsible to draw the gameboard for the user
         /// </summary>
         Gameboard gameboard = new Gameboard();
+
         /// <summary>
         /// The squareSize is used throughout the program in order to make logical checks.
         /// </summary>
         int squareSize;
-/// <summary>
-/// Sets Boardsize and assigns the length of the board to squareSize.
-/// Then starts the game.
-/// </summary>
+
+        /// <summary>
+        /// Sets Boardsize and assigns the length of the board to squareSize.
+        /// Then starts the game.
+        /// </summary>
         public Game()
         {
             squareSize = SetBoardSize();
             StartGame();
         }
+
         /// <summary>
         /// Asks the player what size the board should be.
         /// s: 4x4
         /// m: 6x6
         /// l: 8x8
         /// returns the size of the square's length and fully instantiates <see cref="fields"/>
-        /// 
+        ///
         /// </summary>
         /// <returns>squareSize that is determining the rest of the game's logic</returns>
         public int SetBoardSize()
@@ -83,12 +94,13 @@ namespace Logic
             } while (true);
             // this is not necessary more readable. the heck is this?
         }
-/// <summary>
-/// Fills the board with necessary <see cref="Field"/> types.
-/// Also sets the enemies and pits in the field based on the squareSize value.
-/// </summary>
-/// <param name="fields">the instantiated 2d fields array</param>
-/// <param name="squareSize">the length of the 2d fields array</param>
+
+        /// <summary>
+        /// Fills the board with necessary <see cref="Field"/> types.
+        /// Also sets the enemies and pits in the field based on the squareSize value.
+        /// </summary>
+        /// <param name="fields">the instantiated 2d fields array</param>
+        /// <param name="squareSize">the length of the 2d fields array</param>
         public void FillBoard(Field[,] fields, int squareSize)
         {
             for (int i = 0; i < squareSize; i++)
@@ -118,12 +130,19 @@ namespace Logic
 
                 Array.Resize(ref maelstorms, 1);
                 maelstorms[0] = new Maelstorm((0, 1));
+
+                Array.Resize(ref amaroks, 1);
+                amaroks[0] = new Amarok((2, 2));
             }
             else if (squareSize == 6)
             {
                 fields[1, 1] = new Pit();
                 fields[4, 5] = new Pit();
                 fields[5, 4] = new Pit();
+
+                Array.Resize(ref amaroks, 2);
+                amaroks[0] = new Amarok((1, 4));
+                amaroks[1] = new Amarok((2, 3));
 
                 Array.Resize(ref maelstorms, 2);
                 maelstorms[0] = new Maelstorm((1, 2));
@@ -138,6 +157,11 @@ namespace Logic
                 fields[5, 2] = new Pit();
                 fields[0, 4] = new Pit();
 
+                Array.Resize(ref amaroks, 3);
+                amaroks[0] = new Amarok((1, 4));
+                amaroks[1] = new Amarok((2, 3));
+                amaroks[2] = new Amarok((3, 5));
+
                 Array.Resize(ref maelstorms, 3);
                 maelstorms[0] = new Maelstorm((1, 4));
                 maelstorms[1] = new Maelstorm((5, 0));
@@ -150,8 +174,8 @@ namespace Logic
         /// Gives an intro, draws the map, explains where the player is.
         /// Draws the map, checks for surrounding pits, enemies and other notable
         /// events.
-        /// 
-        /// 
+        ///
+        ///
         /// </summary>
         public void StartGame()
         {
@@ -182,39 +206,24 @@ namespace Logic
                     new NarrativeText().GetFallingIntoPitText();
                     break;
                 }
-
-                //check if the maelstrom is the same coordinate as the player, take the
-
-
-                gameboard.DrawBoard(fields, player, maelstorms, squareSize);
-                if (player.IsNear(fields, squareSize, typeof(Pit)) == true)
+            
+                // draw the maelstorma and also the amarok
+                gameboard.DrawBoard(fields, player, amaroks, maelstorms, squareSize);
+                // check if the player is on a boundary to pit fields, or it blows up in our face
+                if (EntityIsNearBoundary(fields, squareSize, typeof(Pit), player) == true)
                 {
                     new NarrativeText().GetPitIsNearText();
                 }
-                foreach (Maelstorm maelstorm in maelstorms)
-                {
-                    /**
-                        the maelstorm is on his x axis:
-                        check if the y is +1 or minus one of player
-                    */
-                    
-                    if (
-                        (
-                            player.GetPosition().Item1 + 1 == maelstorm.GetPosition().Item1
-                            || player.GetPosition().Item1 - 1 == maelstorm.GetPosition().Item1
-                            || player.GetPosition().Item1 == maelstorm.GetPosition().Item1
-                        )
-                        && (
-                            player.GetPosition().Item2 + 1 == maelstorm.GetPosition().Item2
-                            || player.GetPosition().Item2 - 1 == maelstorm.GetPosition().Item2
-                            || player.GetPosition().Item2 == maelstorm.GetPosition().Item2
-                        )
-                    )
-                    //maelstorm is
-                    {
-                        new NarrativeText().GetMaelstormIsNearText();
-                    }
-                }
+
+
+                
+                EntityIsNear(amaroks);
+                EntityIsNear(maelstorms);
+
+
+
+
+
 
                 while (true)
                 {
@@ -228,7 +237,14 @@ namespace Logic
                         {
                             if (player.GetPosition() == monster.GetPosition())
                             {
-                                BlowPlayerAway(monster, player);
+                                BlowEntityAway(monster, player);
+                            }
+                        }
+                        foreach (Amarok amarok in amaroks)
+                        {
+                            if (player.GetPosition() == amarok.GetPosition()){
+                                new NarrativeText().GetPlayerGetsEatenByAmaroks();
+                                return;
                             }
                         }
 
@@ -246,12 +262,10 @@ namespace Logic
                             case "fountain disabled":
                                 break;
                             default:
-                                if (
-                                    input.Contains("move east")
-                                    || input.Contains("move west")
-                                    || input.Contains("move south")
-                                    || input.Contains("move north")
-                                ) { }
+                                if (input.Contains("move") || input.Contains("mov"))
+                                {
+                                    new NarrativeText().GetInvalidMovementText();
+                                }
                                 else
                                 {
                                     new NarrativeText().GetInvalidInputText(input);
@@ -259,11 +273,79 @@ namespace Logic
                                 break;
                         }
                     }
-                    //then validate for interactions.
+                    //then add a for each for the amaroks, since they move
+                    // could be extracted into their own method and then simplified again.
                 }
+                foreach (var amarok in amaroks)
+                    {
+                        int x = amarok.GetPosition().Item1;
+                        int y = amarok.GetPosition().Item2;
+                        // x position:
+                        //randomize if the amarok walks negative or positive
+                        //if 0 => negative
+                        var xRandom = new Random().Next(1);
+                        if (xRandom == 0){
+                            //if x-1 is < 0, then do the opposite and add
+                            if (x - 1 < 0){
+                                x += 1;
+                            }else{
+                                x -=1;
+                            }
+                        }// if 1 => positive
+                        else{
+                            if (x + 1 > squareSize-1){
+                                x-=1;
+                            }else{
+                                x+=1;
+                            }
+                        }
+
+                        var yRandom = new Random().Next(1);
+                        if (yRandom == 0){
+                            //if x-1 is < 0, then do the opposite and add
+                            if (y - 1 < 0){
+                                y += 1;
+                            }else{
+                                y -=1;
+                            }
+                        }// if 1 => positive
+                        else{
+                            if (y + 1 > squareSize-1){
+                                y-=1;
+                            }else{
+                                y+=1;
+                            }
+                        }
+                        // now set it to the amarok
+                        amarok.SetPosition((x,y));
+                        //now Blow Amarok away if they are near maelstorms
+                        foreach (var maelstorm in maelstorms)
+                        {
+                            if (maelstorm.GetPosition() == amarok.GetPosition()){
+                                new NarrativeText().GetAmarokIsBlownAway();
+                                BlowEntityAway(maelstorm, amarok);
+                            }
+                        }
+                        if (fields[x,y] is Pit){
+                            new NarrativeText().GetAmarokFallingIntoPit();
+                            // let's do some iterative mutating to get rid of the "dead" Amarok
+                            Amarok[] newAmarokList = new Amarok[amaroks.Length - 1];
+                            // there should be an easier way without using Lists I hope and I just don't know
+                            int count = 0;
+                            for (int i = 0; i < amaroks.Length; i++)
+                            {
+                                // the amarok is already in the coordinate where the pit i
+                                // we just have to filter it out into that new array
+                                // then overwrite amaroks with that one.
+                                if (amaroks[i].GetPosition() != (x,y)){
+                                    newAmarokList[count] = amaroks[i];
+                                }
+                            }
+                            amaroks = newAmarokList;
+                        }
+                    }
             }
         }
-
 
         /// <summary>
         /// Validates input regarding interacting with the world.
@@ -355,13 +437,14 @@ namespace Logic
                     return "invalid default";
             }
         }
+
         /// <summary>
         /// Validates input regarding movement.
         /// Also corrects them with the <see cref="IsEntityInGameField(ValueTuple{int, int}, int)"/>
-        /// method. 
+        /// method.
         /// If it is valid, the player may move.
         /// If not, the player's movement is rolled back within the 2d array's coordinates.
-        /// 
+        ///
         /// </summary>
         /// <param name="input">the player's input</param>
         /// <returns>true for correct movement, false for incorrect movement</returns>
@@ -438,9 +521,10 @@ namespace Logic
                     return false;
             }
         }
+
         /// <summary>
         /// Checks if the player's coordinates are within the 2d-array.
-        /// 
+        ///
         /// </summary>
         /// <param name="tuple">player's coordinates</param>
         /// <param name="squareSize">the length of the gameworld</param>
@@ -460,6 +544,7 @@ namespace Logic
                 return true;
             }
         }
+
         /// <summary>
         /// If the player enters the same room as a Maelstorm creature,
         /// the player is being blown away to the north east.
@@ -467,16 +552,16 @@ namespace Logic
         /// </summary>
         /// <param name="maelstorm">the maelstorm </param>
         /// <param name="player"></param>
-        void BlowPlayerAway(Maelstorm maelstorm, Player player)
+        void BlowEntityAway(Maelstorm maelstorm, Entity entity)
         {
-            player.SetPosition(
+            entity.SetPosition(
                 (
-                    player.GetPosition().Item1 - 1 <= 0
+                    entity.GetPosition().Item1 - 1 <= 0
                         ? squareSize - 1
-                        : player.GetPosition().Item1 - 1,
-                    player.GetPosition().Item2 + 2 > squareSize - 1
-                        ? (player.GetPosition().Item2 + 2) % (squareSize - 1)
-                        : player.GetPosition().Item2 + 2
+                        : entity.GetPosition().Item1 - 1,
+                    entity.GetPosition().Item2 + 2 > squareSize - 1
+                        ? (entity.GetPosition().Item2 + 2) % (squareSize - 1)
+                        : entity.GetPosition().Item2 + 2
                 )
             );
 
@@ -491,5 +576,257 @@ namespace Logic
                 )
             );
         }
+
+        public void EntityIsNear(Entity[] entities)
+        {
+            foreach (var entity in entities)
+            {
+                if (
+                    (
+                        player.GetPosition().Item1 + 1 == entity.GetPosition().Item1
+                        || player.GetPosition().Item1 - 1 == entity.GetPosition().Item1
+                        || player.GetPosition().Item1 == entity.GetPosition().Item1
+                    )
+                    && (
+                        player.GetPosition().Item2 + 1 == entity.GetPosition().Item2
+                        || player.GetPosition().Item2 - 1 == entity.GetPosition().Item2
+                        || player.GetPosition().Item2 == entity.GetPosition().Item2
+                    )
+                )
+                //maelstorm is
+                {
+                    if (entity is Maelstorm)
+                    {
+                        new NarrativeText().GetMaelstormIsNearText();
+                    }
+                    else if (entity is Amarok)
+                    {
+                        new NarrativeText().GetAmarokIsNearText();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// This function should be moved to the Program.cs site tbh.
+        /// </summary>
+        /// <param name="fields">the 2d-array that the player has to reside in</param>
+        /// <param name="squareSize">the length of a square to check base cases</param>
+        /// <param name="field">The type of the field the player is checking for</param>
+        /// <returns>
+        /// Returns true if the player finds a Field type that he needs to be wary of.
+        /// Else returns false.
+        /// </returns>
+        public bool EntityIsNearBoundary(Field[,] fields, int squareSize, Type field, Entity entity)
+        {
+            //check base cases:
+
+            // upper left corner
+            if (entity.GetPosition().Item1 == 0 && entity.GetPosition().Item2 == 0)
+            {
+                if (
+                    fields[entity.GetPosition().Item1 + 1, entity.GetPosition().Item2].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 + 1,
+                        entity.GetPosition().Item2 + 1
+                    ].GetType() == field
+                    || fields[entity.GetPosition().Item1, entity.GetPosition().Item2 + 1].GetType()
+                        == field
+                )
+                {
+                    return true;
+                }
+            } // upper right corner
+            else if (
+                entity.GetPosition().Item1 == 0
+                && entity.GetPosition().Item2 + 1 == squareSize
+            )
+            {
+                if (
+                    fields[entity.GetPosition().Item1, entity.GetPosition().Item2 - 1].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 + 1,
+                        entity.GetPosition().Item2 - 1
+                    ].GetType() == field
+                    || fields[entity.GetPosition().Item1 + 1, entity.GetPosition().Item2].GetType()
+                        == field
+                )
+                {
+                    return true;
+                }
+            } // lower right corner
+            else if (
+                entity.GetPosition().Item1 + 1 == squareSize
+                && entity.GetPosition().Item2 + 1 == squareSize
+            )
+            {
+                if (
+                    fields[entity.GetPosition().Item1 - 1, entity.GetPosition().Item2].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 - 1,
+                        entity.GetPosition().Item2 - 1
+                    ].GetType() == field
+                    || fields[entity.GetPosition().Item1, entity.GetPosition().Item2 - 1].GetType()
+                        == field
+                )
+                {
+                    return true;
+                }
+            } // lower left corner
+            else if (
+                entity.GetPosition().Item1 + 1 == squareSize
+                && entity.GetPosition().Item2 == 0
+            )
+            {
+                if (
+                    fields[entity.GetPosition().Item1 - 1, entity.GetPosition().Item2].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 - 1,
+                        entity.GetPosition().Item2 + 1
+                    ].GetType() == field
+                    || fields[entity.GetPosition().Item1, entity.GetPosition().Item2].GetType()
+                        == field
+                )
+                {
+                    return true;
+                }
+            } // upper edge
+            else if (
+                entity.GetPosition().Item1 == 0
+                && entity.GetPosition().Item2 != 0
+                && entity.GetPosition().Item2 + 1 != squareSize
+            )
+            {
+                if (
+                    fields[entity.GetPosition().Item1, entity.GetPosition().Item2 - 1].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 + 1,
+                        entity.GetPosition().Item2 - 1
+                    ].GetType() == field
+                    || fields[entity.GetPosition().Item1 + 1, entity.GetPosition().Item2].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 + 1,
+                        entity.GetPosition().Item2 + 1
+                    ].GetType() == field
+                    || fields[entity.GetPosition().Item1, entity.GetPosition().Item2 + 1].GetType()
+                        == field
+                )
+                {
+                    return true;
+                }
+            } // right edge
+            else if (
+                entity.GetPosition().Item1 != 0
+                && entity.GetPosition().Item1 + 1 != squareSize
+                && entity.GetPosition().Item2 + 1 == squareSize
+            )
+            {
+                if (
+                    fields[entity.GetPosition().Item1 - 1, entity.GetPosition().Item2].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 - 1,
+                        entity.GetPosition().Item2 - 1
+                    ].GetType() == field
+                    || fields[entity.GetPosition().Item1, entity.GetPosition().Item2 - 1].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 + 1,
+                        entity.GetPosition().Item2 - 1
+                    ].GetType() == field
+                    || fields[entity.GetPosition().Item1 + 1, entity.GetPosition().Item2].GetType()
+                        == field
+                )
+                {
+                    return true;
+                }
+            } // lower edge
+            else if (
+                entity.GetPosition().Item1 + 1 == squareSize
+                && entity.GetPosition().Item2 + 1 != squareSize
+                && entity.GetPosition().Item2 != 0
+            )
+            {
+                if (
+                    fields[entity.GetPosition().Item1, entity.GetPosition().Item2 + 1].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 - 1,
+                        entity.GetPosition().Item2 + 1
+                    ].GetType() == field
+                    || fields[entity.GetPosition().Item1 - 1, entity.GetPosition().Item2].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 - 1,
+                        entity.GetPosition().Item2 - 1
+                    ].GetType() == field
+                    || fields[entity.GetPosition().Item1, entity.GetPosition().Item2 - 1].GetType()
+                        == field
+                )
+                    return true;
+            } // left edge
+            else if (
+                entity.GetPosition().Item1 != 0
+                && entity.GetPosition().Item1 + 1 != squareSize
+                && entity.GetPosition().Item2 == 0
+            )
+            {
+                if (
+                    fields[entity.GetPosition().Item1 + 1, entity.GetPosition().Item2].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 + 1,
+                        entity.GetPosition().Item2 + 1
+                    ].GetType() == field
+                    || fields[entity.GetPosition().Item1, entity.GetPosition().Item2 + 1].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 - 1,
+                        entity.GetPosition().Item2 + 1
+                    ].GetType() == field
+                    || fields[entity.GetPosition().Item1 - 1, entity.GetPosition().Item2].GetType()
+                        == field
+                )
+                    return true;
+            } // middle
+            else
+            {
+                if (
+                    fields[entity.GetPosition().Item1 + 1, entity.GetPosition().Item2].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 + 1,
+                        entity.GetPosition().Item2 + 1
+                    ].GetType() == field
+                    || fields[entity.GetPosition().Item1, entity.GetPosition().Item2 + 1].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 - 1,
+                        entity.GetPosition().Item2 + 1
+                    ].GetType() == field
+                    || fields[entity.GetPosition().Item1 - 1, entity.GetPosition().Item2].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 - 1,
+                        entity.GetPosition().Item2 - 1
+                    ].GetType() == field
+                    || fields[entity.GetPosition().Item1, entity.GetPosition().Item2 - 1].GetType()
+                        == field
+                    || fields[
+                        entity.GetPosition().Item1 + 1,
+                        entity.GetPosition().Item2 - 1
+                    ].GetType() == field
+                )
+                    return true;
+            }
+            return false;
+        }
     }
+    
 }
