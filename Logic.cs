@@ -603,6 +603,13 @@ namespace Logic
             );
         }
 
+
+        /// <summary>
+        /// Checks if the player and the other entity child class are near each other
+        /// Checks for adjacent fields/ coordinates.
+        /// Differentiates between Maelstorm and Amarok
+        /// </summary>
+        /// <param name="entities">Enemy Entities as arrays</param>
         public void EntityIsNear(Entity[] entities)
         {
             foreach (var entity in entities)
