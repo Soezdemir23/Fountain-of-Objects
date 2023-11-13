@@ -15,6 +15,7 @@ namespace Fountain_of_Objects
         public void DrawBoard(
             Field[,] fields,
             Player player,
+            Amarok[] amaroks,
             Maelstorm[] maelstorms,
             int squareSize
         )
@@ -32,6 +33,10 @@ namespace Fountain_of_Objects
                         //since we can just get the look of the enemy, we can do this:
                         maelstorms[0].GetLook();
                     }
+                    else if (SameCoordinate((i, k), amaroks) == true)
+                    {
+                        amaroks[0].GetLook();
+                    }
                     else
                     {
                         fields[i, k].GetLook();
@@ -41,11 +46,11 @@ namespace Fountain_of_Objects
             }
         }
 
-        public bool SameCoordinate((int, int) coordinate, Maelstorm[] maelstorms)
+        public bool SameCoordinate((int, int) coordinate, Entity[] entities)
         {
-            foreach (Maelstorm item in maelstorms)
+            foreach (Entity item in entities)
             {
-                if (item.GetPosition() == coordinate)
+                if (item.GetPosition() == coordinate && item.GetIsAlive() == true)
                 {
                     return true;
                 }
