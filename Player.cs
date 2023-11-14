@@ -77,7 +77,7 @@ namespace Fountain_of_Objects
     /// </summary>
     public class Player : Entity
     {
-        private int arrows = 5;
+        private int _arrows = 5;
 
         /// <summary>
         /// The constructor assigns the position and the Sign of the Player class
