@@ -91,7 +91,7 @@ namespace Fountain_of_Objects
 
         public bool CanShootArrow()
         {
-            if (arrows == 0)
+            if (_arrows == 0)
             {
                 return false;
             }
@@ -102,16 +102,16 @@ namespace Fountain_of_Objects
         }
 
         public void ShootArrow(){
-            if (arrows > 0 )
+            if (_arrows > 0 )
             {
-                arrows--;
+                _arrows--;
             }
 
         }
 
         public int GetArrows()
         {
-            return arrows;
+            return _arrows;
         }
     }
 
