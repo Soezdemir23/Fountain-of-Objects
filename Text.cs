@@ -49,41 +49,6 @@
             Console.ResetColor();
         }
 
-        public void End()
-        {
-            Console.ForegroundColor = Color;
-            Console.WriteLine("You were able to leave the caverns.");
-            Console.WriteLine(
-                "While they celebrated your return, it was clear as day that you were to be excommunicated or be sacrificed to the gods."
-            );
-            Console.WriteLine($"Or whatever reason they could think of to justify their nature.");
-            
-                Console.WriteLine($"So they can sleep soundly. Just for one moment longer in ignorant, arrogant bliss");
-            Console.WriteLine($"After all, that was the sole purpose of your existence. So they could go back to normal.");
-            Console.WriteLine("However, when you entered the Caverns you saw so much and went through so many worse trials, that you lost your mental chains that put you down.");
-            Console.WriteLine($"And as you emerged back alive from the depths, you gained the will and the power to be your own master.");
-            Console.WriteLine($"You wanted to live, when you were in danger. However, here you wished you were dead.");
-            Console.WriteLine($"'One last trick', you thought to yourself and leaned back to a backalley's shadow.");
-            Console.WriteLine($"Just like that, you vanished from everybody's eyes and from their minds.");
-            Console.WriteLine($"You left the tribe and ventured outside into the wilderness.");
-            Console.WriteLine($"Making the tribe bereft of a heroic sacrifice to their gods");
-            Console.WriteLine($"After all, your life is your own to sacrifice and to live.");
-            Console.WriteLine();
-
-            Thread.Sleep(1000);
-            Console.WriteLine("A few years later");
-            Thread.Sleep(3000);
-            Console.WriteLine("You were in a small fort city, in a bar drinking a malt when the news reached your holey ears from selling your services.");
-            Console.WriteLine("The tribe that you came from got swallowed by the caverns. You just drank your keg, amused.");
-            Console.WriteLine("'A little trick' was all it took for you to exact revenge and all it took was time and distance.");
-            Console.WriteLine("You knew your male ancestors smiled on you. And you couldn't care less about the witches.");
-            Console.WriteLine($"Their times were over and with the fountain that you left stronger than ever, a new, brighter age began.");
-            Thread.Sleep(3000);
-            Console.WriteLine($"The age of men.");
-            Thread.Sleep(2000);
-            Console.WriteLine($"The End");
-            
-        }
 
         internal void GetInvalidInputText(string input)
         {
@@ -141,11 +106,34 @@
         internal void GetLeaveCavernEnabledFountain()
         {
             Console.ForegroundColor = Color;
-            Console.WriteLine("You left the caverns.");
-            Console.WriteLine("You were able to activate the Fountain of Objects.");
-            Console.WriteLine("You won!");
-            Console.WriteLine("You left a changed man, a shell of what you used to be.");
-            Console.ResetColor();
+            Console.WriteLine("You were able to leave the caverns.");
+            Console.WriteLine(
+                "While they celebrated your return, it was clear as the sky that you stopped being useful to them the moment they got what they wanted from you");
+            Console.WriteLine($"After all, that was the sole purpose of your existence. So they could go back to normal.");
+            Console.WriteLine("However, when you entered the Caverns, you entered it a boy.");
+            Console.WriteLine($"And as you emerged back alive from the depths, you returned from it a man");
+            Console.WriteLine($"And the caverns were the best teacher after all. You learned many tricks and gained skills to escape this decadent hell that bore and aborted you for any purpose they needed.");
+            Console.WriteLine($"'One last trick', you thought to yourself and leaned back to a backalley's shadow.");
+            Console.WriteLine($"Just like that, you vanished from everybody's eyes and screeching ensued.");
+            Console.WriteLine($"However, the Maelstorm you took with you already spit you into the farthest edges of the witch tribe's lands and you escaped into the wilderness that was reborn.");
+            Console.WriteLine($"They would rather be safe and comfortable, than seek the freedom and liberty that danger begets for you");
+            
+            Console.WriteLine($"After all, it's you who decides how you live your life and for what purpose you sacrifice or end it.");
+            
+            Console.WriteLine();
+
+            Thread.Sleep(1000);
+            Console.WriteLine("A few years later");
+            Thread.Sleep(3000);
+            Console.WriteLine("You were in a small fort city, in a bar drinking a malt when the news reached your holey ears from selling your services.");
+            Console.WriteLine("The tribe that you came from got swallowed by the caverns. You just drank your keg, amused.");
+            Console.WriteLine("'A little trick' was all it took for you to exact revenge and all it took was time and distance.");
+            Console.WriteLine("You knew your male ancestors smiled on you. And you couldn't care less about the witches.");
+            Console.WriteLine($"Their times were over and with the fountain that you left stronger than ever, a new, brighter age began.");
+            Thread.Sleep(3000);
+            Console.WriteLine($"The age of men.");
+            Thread.Sleep(2000);
+            Console.WriteLine($"The End");
         }
 
         internal void GetLeaveCavernDisabledFountain()
@@ -153,7 +141,12 @@
             Console.ForegroundColor = Color;
             Console.WriteLine("You left the caverns.");
             Console.WriteLine("You were not able to activate the Fountain of Objects.");
-            Console.WriteLine("You lose");
+            Console.WriteLine("Your fear of the cavern overcame you and broke your will.");
+            Console.WriteLine($"The witches, seeing that you didn't activate the fountain AND dared to return alive, ripped you apart bone by bone as they kept you alive.");
+            Console.WriteLine($"It was a lesson for the new born manservants, that the witches, their mothers and sisters and aunts, are not to be refused any and all desires and orders.");
+            Console.WriteLine($"Before life vanished from your eyes, you wondered if you wouldn't rather have been devoured by an Amarok or fall into a pit.");
+            Console.WriteLine($"Game over");
+            
             Console.ResetColor();
         }
 
