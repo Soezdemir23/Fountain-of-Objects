@@ -49,6 +49,7 @@ namespace Logic
         public Game()
         {
             squareSize = SetBoardSize();
+            Console.Clear();
             StartGame();
         }
 
