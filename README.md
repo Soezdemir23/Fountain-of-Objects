@@ -1,7 +1,11 @@
-# Fountain of Objects
+# The Fountain
 
-A game to recreate "Hunt the Wumpus".
-Currently a work in progress.
+A game to recreate "Hunt the Wumpus" in another flavor.
+Press "help" in the terminal to see a guide.
+
+## View of game:
+
+![Game Excerpt](./Game.png);
 
 ## Todos
 
@@ -15,5 +19,10 @@ Currently a work in progress.
 - [x] Create Weapons: Weapons are used to incapacitate enemies for the whole duration.
   - [x] The only reasonable weapon in the game is a bow / arrow
   - [x] It should only be able to incapacitate one amarok at a time.
-- [ ] Create help menu.
-- [ ] Clean up the game and make the flow less confusing.
+- [x] Create help menu.
+- [x] Clean up the game and make the flow less confusing.
+
+
+----
+
+Feedback always welcome 😄
