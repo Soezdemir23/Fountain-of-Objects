@@ -12,35 +12,35 @@ namespace Logic
         /// <summary>
         /// Player object
         /// </summary>
-        Player player = new();
+        private Player player = new();
 
         /// <summary>
         /// Maelstorm Array is fully instantiated after the <
         /// Can be null, logically will never happen inside the game
         /// </summary>
-        Maelstorm[]? maelstorms;
+        private Maelstorm[]? maelstorms;
 
         /// <summary>
         /// Just like Maelstorm Array, the size and instantiation of the array is determined in the <see cref="FillBoard(Field[,], int)"/> method
         /// </summary>
-        Amarok[]? amaroks;
+        private Amarok[]? amaroks;
 
         /// <summary>
         /// The field where the game takes place.
         /// Can be nullable, never gonna happen after asking the player for the size
         /// of the board.
         /// </summary>
-        Field[,]? fields;
+        private Field[,]? fields;
 
         /// <summary>
         /// Responsible to draw the gameboard for the user
         /// </summary>
-        Gameboard gameboard = new Gameboard();
+        private Gameboard gameboard = new Gameboard();
 
         /// <summary>
         /// The squareSize is used throughout the program in order to make logical checks.
         /// </summary>
-        int squareSize;
+       private int squareSize;
 
         /// <summary>
         /// Sets Boardsize and assigns the length of the board to squareSize.
@@ -62,7 +62,7 @@ namespace Logic
         ///
         /// </summary>
         /// <returns>squareSize that is determining the rest of the game's logic</returns>
-        public int SetBoardSize()
+        private int SetBoardSize()
         {
             Console.WriteLine("How big should the board be?");
             Console.WriteLine("s for small: 4x4 sized");
@@ -102,7 +102,7 @@ namespace Logic
         /// </summary>
         /// <param name="fields">the instantiated 2d fields array</param>
         /// <param name="squareSize">the length of the 2d fields array</param>
-        public void FillBoard(Field[,] fields, int squareSize)
+        private void FillBoard(Field[,] fields, int squareSize)
         {
             for (int i = 0; i < squareSize; i++)
             {
@@ -176,7 +176,7 @@ namespace Logic
         /// Draws the map, checks for surrounding pits, enemies and other notable
         /// events.
         /// </summary>
-        public void StartGame()
+        private void StartGame()
         {
             FillBoard(fields, squareSize);
             new NarrativeText().Intro();
@@ -404,7 +404,7 @@ namespace Logic
         /// </summary>
         /// <param name="input">the input the player entered</param>
         /// <returns>the result to be further analyzed</returns>
-        public string ValidateInputInteraction(string input)
+        private string ValidateInputInteraction(string input)
         {
             FOO fountain = (FOO)fields[0, squareSize / 2];
             switch (input)
@@ -632,7 +632,7 @@ namespace Logic
         /// </summary>
         /// <param name="input">the player's input</param>
         /// <returns>true for correct movement, false for incorrect movement</returns>
-        bool ValidateInputMovement(string input)
+        private bool ValidateInputMovement(string input)
         {
             switch (input)
             {
@@ -713,7 +713,7 @@ namespace Logic
         /// <param name="tuple">player's coordinates</param>
         /// <param name="squareSize">the length of the gameworld</param>
         /// <returns>Whether the player is moving further than the edge or not</returns>
-        bool IsEntityInGameField((int, int) tuple, int squareSize)
+        private bool IsEntityInGameField((int, int) tuple, int squareSize)
         {
             if (tuple.Item1 < 0 || tuple.Item1 > squareSize - 1)
             {
@@ -736,7 +736,7 @@ namespace Logic
         /// </summary>
         /// <param name="maelstorm">the maelstorm </param>
         /// <param name="player"></param>
-        void BlowEntityAway(Maelstorm maelstorm, Entity entity)
+        private void BlowEntityAway(Maelstorm maelstorm, Entity entity)
         {
             entity.SetPosition(
                 (
@@ -768,7 +768,7 @@ namespace Logic
         /// Differentiates between Maelstorm and Amarok
         /// </summary>
         /// <param name="entities">Enemy Entities as arrays</param>
-        public void EntityIsNear(Entity[] entities)
+        private void EntityIsNear(Entity[] entities)
         {
             foreach (var entity in entities)
             {
@@ -813,7 +813,7 @@ namespace Logic
         /// Returns true if the player finds a Field type that he needs to be wary of.
         /// Else returns false.
         /// </returns>
-        public bool EntityIsSensingFields(Field[,] fields, int squareSize, Type field, Entity entity)
+        private bool EntityIsSensingFields(Field[,] fields, int squareSize, Type field, Entity entity)
         {
             //check base cases:
 

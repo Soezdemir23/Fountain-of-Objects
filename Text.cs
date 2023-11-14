@@ -16,7 +16,7 @@
     {
         public NarrativeText() => Color = ConsoleColor.Magenta;
 
-        public void Intro()
+        internal void Intro()
         {
             Console.ForegroundColor = Color;
             Console.WriteLine($"You never wanted to enter the caverns.");
@@ -371,7 +371,7 @@
     {
         public InputText() => Color = ConsoleColor.Yellow;
 
-        public string GetInput()
+        internal string GetInput()
         {
             //I could and maybe should have put this part in NarrativeText.
             Console.ForegroundColor = ConsoleColor.Magenta;
@@ -393,7 +393,7 @@
     {
         public CavernText() => Color = ConsoleColor.Yellow;
 
-        public void Entrance()
+        internal void Entrance()
         {
             Console.ForegroundColor = Color;
             Console.WriteLine("You see light coming from the cavern entrance.");
@@ -408,7 +408,7 @@
     {
         public FountainText() => Color = ConsoleColor.Cyan;
 
-        public void FountainDisabled()
+        internal void FountainDisabled()
         {
             Console.ForegroundColor = Color;
             Console.WriteLine("You hear the rushing water getting less");
@@ -416,7 +416,7 @@
             Console.ResetColor();
         }
 
-        public void FountainEnabled()
+        internal void FountainEnabled()
         {
             Console.ForegroundColor = Color;
             Console.WriteLine("You hear the rushing waters from the Fountain of Objects.");
@@ -507,38 +507,7 @@
         Console.WriteLine($"");
 
         Console.WriteLine($"SURVIVE AND LEAVE ALIVE BOY! DON'T BECOME ONE OF US AND HOPE THE WITCHES WILL BE MERCIFUL.");
-        Console.ResetColor(); 
-        
-        
-        
-        
-        
-        
-        
-
-        
-        
-        
-
-        
-        
-
-        
-        
-        
-        
-        
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        Console.ResetColor();         
         
        }
     }

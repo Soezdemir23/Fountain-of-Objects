@@ -45,10 +45,10 @@ namespace Fountain_of_Objects
                 Console.WriteLine();
             }
         }
+
         /// <summary>
         /// Helper function for <see cref="DrawBoard(Field[,], Player, Amarok[], Maelstorm[], int)"/>.
         /// Checks if the given coordinate from DrawBoard is equal to the entity.
-        /// 
         /// </summary>
         /// <param name="coordinate"></param>
         /// <param name="entities"></param>
@@ -62,7 +62,7 @@ namespace Fountain_of_Objects
                     return true;
                 }
             }
-            return false;
+        return false;
         }
     }
 }

@@ -67,7 +67,7 @@ namespace Fountain_of_Objects
         /// <param name="position">a (int,int) tuple</param>
         public void SetPosition((int, int) position)
         {
-            this.Position = position;
+            Position = position;
         }
     }
 
