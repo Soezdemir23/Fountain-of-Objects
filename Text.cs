@@ -19,7 +19,25 @@
         public void Intro()
         {
             Console.ForegroundColor = Color;
-            Console.WriteLine("You entered the Caverns to find the Fountain of Objects.");
+            Console.WriteLine($"You never wanted to enter the caverns.");
+            Console.WriteLine($"You never cared for the continuation of the tribe of witches.");
+            Console.WriteLine($"They celebrated, celebrated decadently while they literally forced you into the caverns after what they did to you, to them.");
+            Console.WriteLine($"You were the only one strong enough to survive the gauntlet and just barely capable enough to survive the tests.");
+            Console.WriteLine($"Your father and male friends weren't there to see you off into the caverns.");
+            Console.WriteLine($"They were summarily executed, to break and mold you into a utility.");
+            Console.WriteLine($"And if they didn't get their head seperated from the neck down,");
+            Console.WriteLine($"they were forced to fight you under the influence of drugs, gaslighting, torture and died to give you their strength.");
+            Console.WriteLine($"Much to the decadent delight of the witches that assured you with condescending smiles, that they had no choice and it was the law.");
+            Console.WriteLine($"You and your sacrificed brethern were given birth for that reason alone, to find the Fountain of Life that once gave life to the outerworld.");
+            Console.WriteLine($"They gave you Shatter Arrows and a Bow that could withstand your strength.");
+            Console.WriteLine($"Not for your safety and return, but for the profit you are gonna bring to them.");
+            Console.WriteLine($"They shoved you into the cavern with spears, wouldn't mind killing you here and now just to birth new men to throw into the mawing pits.");
+            Console.WriteLine($"You immediately walked down the Cavern to get it over with and find:" );
+            
+            Thread.Sleep(2000);
+            Console.WriteLine($"The Fountain");
+            
+            
             Thread.Sleep(1000);
             Console.WriteLine("Find it.");
             Thread.Sleep(400);
@@ -36,25 +54,41 @@
             Console.ForegroundColor = Color;
             Console.WriteLine("You were able to leave the caverns.");
             Console.WriteLine(
-                "While they celebrated your return, it was immediately clear that they were gonna dispose and forget about your deeds."
+                "While they celebrated your return, it was clear as day that you were to be excommunicated or be sacrificed to the gods."
             );
-            Console.WriteLine("Soon, you were to be sacrificed and forgotten.");
-            Console.WriteLine(
-                "Oh, how their expressions changed when you brought the caverns with you and unleashed it upon them."
-            );
-            Console.WriteLine(
-                "Their comatose existence of blind expectations, sending you down to the cavern so they could go back to sleep for another day on the mattress of corpses."
-            );
-            Console.WriteLine(
-                "Why burn down the village when they expelled you to go sacrifice yourself for them to feel the warmth, if you can bath in their blood and guts instead?"
-            );
-            Console.WriteLine("\nThis time, you really won and you stayed alive.");
+            Console.WriteLine($"Or whatever reason they could think of to justify their nature.");
+            
+                Console.WriteLine($"So they can sleep soundly. Just for one moment longer in ignorant, arrogant bliss");
+            Console.WriteLine($"After all, that was the sole purpose of your existence. So they could go back to normal.");
+            Console.WriteLine("However, when you entered the Caverns you saw so much and went through so many worse trials, that you lost your mental chains that put you down.");
+            Console.WriteLine($"And as you emerged back alive from the depths, you gained the will and the power to be your own master.");
+            Console.WriteLine($"You wanted to live, when you were in danger. However, here you wished you were dead.");
+            Console.WriteLine($"'One last trick', you thought to yourself and leaned back to a backalley's shadow.");
+            Console.WriteLine($"Just like that, you vanished from everybody's eyes and from their minds.");
+            Console.WriteLine($"You left the tribe and ventured outside into the wilderness.");
+            Console.WriteLine($"Making the tribe bereft of a heroic sacrifice to their gods");
+            Console.WriteLine($"After all, your life is your own to sacrifice and to live.");
+            Console.WriteLine();
+
+            Thread.Sleep(1000);
+            Console.WriteLine("A few years later");
+            Thread.Sleep(3000);
+            Console.WriteLine("You were in a small fort city, in a bar drinking a malt when the news reached your holey ears from selling your services.");
+            Console.WriteLine("The tribe that you came from got swallowed by the caverns. You just drank your keg, amused.");
+            Console.WriteLine("'A little trick' was all it took for you to exact revenge and all it took was time and distance.");
+            Console.WriteLine("You knew your male ancestors smiled on you. And you couldn't care less about the witches.");
+            Console.WriteLine($"Their times were over and with the fountain that you left stronger than ever, a new, brighter age began.");
+            Thread.Sleep(3000);
+            Console.WriteLine($"The age of men.");
+            Thread.Sleep(2000);
+            Console.WriteLine($"The End");
+            
         }
 
         internal void GetInvalidInputText(string input)
         {
             Console.ForegroundColor = Color;
-            Console.WriteLine("You were delirious and didn't know what you thought.");
+            Console.WriteLine("You were confused and tripped a bit, but then catched yourself.");
             Console.WriteLine("I, the narrator, have noted down what you tried: " + input);
             Console.WriteLine("You are still in the same room.");
             Console.ResetColor();
@@ -71,7 +105,7 @@
         internal void GetInvalidInputBounds(string input)
         {
             Console.ForegroundColor = Color;
-            Console.WriteLine("You tried to push towards " + input.Substring(input.IndexOf(" ")));
+            Console.WriteLine($"You tried to push towards {input.Substring(input.IndexOf(" "))}");
             Console.WriteLine("However, the wall doesn't budge despite your best efforts");
             Console.ResetColor();
         }
@@ -412,5 +446,107 @@
             Console.WriteLine("It has been reactivated!");
             Console.ResetColor();
         }
+    }
+
+    public class SpecialText : TextColoring
+    {
+       public SpecialText() => Color = ConsoleColor.Blue;
+
+
+       internal void GetHelp(){
+        Console.ForegroundColor = Color;
+        Console.WriteLine("CHILD!");
+        Console.WriteLine("DON'T FALTER! DON'T GIVE UP EVEN IF YOU ARE DUST!");
+        Console.WriteLine($"DON'T LET THESE CACKLING WITCHES RETURN YOU TO US TOO EARLY.");
+        Console.WriteLine("EVEN IF WE ARE NOTHING BUT SPIRIT PRISONERS OF THE CAVERN, WE SHALL GUIDE YOU!");
+        Console.WriteLine($"");
+        Console.WriteLine($"HEED OUR WARNING! IN THE CAVERNS, THOUGHTS FOLLOW ACTIONS.");
+        Console.WriteLine($"HOWEVER, WORDS WITH NO MEANING WILL BE YOUR DEMISE!");
+        Console.WriteLine($"");
+        Console.WriteLine($"IF YOU WISH TO MOVE, THINK OF THESE SENTENCES:");
+        
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"");
+        Console.WriteLine($"move north");
+        Console.WriteLine($"move south");
+        Console.WriteLine($"move west");
+        Console.WriteLine($"move east");
+        Console.WriteLine($"");
+        Console.ForegroundColor = Color;
+    
+        Console.WriteLine($"WE SENSE SHATTER, YOU CARRY A BOW! ALLOW US TO GUIDE YOU HERE TOO:");
+        Console.WriteLine($"BEFORE YOU SHOOT, YOU HAVE TO MANIFEST THE WORDS IN YOUR THOUGHTS:");
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"");
+        Console.WriteLine($"shoot arrow");
+        Console.WriteLine($"");
+        Console.ForegroundColor = Color;
+        
+        Console.WriteLine("AFTER MANIFESTING THE THOUGHT, MANIFEST WHERE TO SHOOT:");
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"");
+        Console.WriteLine($"north");
+        Console.WriteLine($"west");
+        Console.WriteLine($"east");
+        Console.WriteLine($"south");
+        Console.WriteLine($"");
+        Console.ForegroundColor = Color;
+    
+        Console.WriteLine($"THAT IS NOT ALL! REMEMBER, YOU CAN'T ACTIVATE THE FOUNTAIN IF YOU DON'T WILL IT!");
+        Console.WriteLine($"THE SAME GOES FOR DISABLING AND LEAVING THE CAVERN!");
+        
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"");
+        Console.WriteLine($"enable fountain");
+        Console.WriteLine($"disable fountain");
+        Console.WriteLine($"leave cavern");
+        Console.WriteLine($"");
+        Console.ForegroundColor = Color;
+
+        Console.WriteLine($"HOW YOU HANDLE THINGS IS YOUR DECISION, DANGER BEGETS FREEDOM IN THE CAVERNS!");
+        Console.WriteLine($"YOU ARE NO BORN PRISONER HERE, BUT YOU ARE ALSO NOT SAFE!");
+        Console.WriteLine($"BEWARE OF (P)ITS! DON'T FALL INTO THEM!");
+        Console.WriteLine($"(M)AELSTORM ARE NOT NECESSARILY ENEMIES, YET COULD KILL YOU IF THEY BLOW YOU INTO A PIT!");
+        Console.WriteLine($"BEWARE OF THE (Å)MAROK! FOR THEY ARE THE REMNANTS OF OUR ENTWINED AND CONTORTED FLESH CURSED TO AIMLESSLY WANDER.");
+        Console.WriteLine($"AVOID THEIR DIRECT GAZE, FOR YOUR BODY WILL BE PARALYZED BY FEAR AND YOU WILL JOIN US AND THEM!");
+        Console.WriteLine($"");
+
+        Console.WriteLine($"SURVIVE AND LEAVE ALIVE BOY! DON'T BECOME ONE OF US AND HOPE THE WITCHES WILL BE MERCIFUL.");
+        Console.ResetColor(); 
+        
+        
+        
+        
+        
+        
+        
+
+        
+        
+        
+
+        
+        
+
+        
+        
+        
+        
+        
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+       }
     }
 }

@@ -246,6 +246,9 @@ namespace Logic
                     }
                     else if (validatedInput == false)
                     {
+                                        new DescriptiveText().WhereAbout(player.GetPosition(), player);
+
+                        gameboard.DrawBoard(fields,player, amaroks, maelstorms, squareSize);
                         string result = ValidateInputInteraction(input);
                         switch (result)
                         {
@@ -268,6 +271,9 @@ namespace Logic
                             case "no arrows":
                                 new NarrativeText().GetNoArrows();
                                 break;
+                            case "help":
+                                new SpecialText().GetHelp();
+                                break;
                             default:
                                 if (input.Contains("move") || input.Contains("mov"))
                                 {
@@ -282,8 +288,13 @@ namespace Logic
                     }
                     //then add a for each for the amaroks, since they move
                     // could be extracted into their own method and then simplified again.
+                    new DescriptiveText().WhereAbout(player.GetPosition(), player);
+
+                    gameboard.DrawBoard(fields,player,amaroks,maelstorms,squareSize);
+                    AmarokBehavior();
+                
                 }
-                AmarokBehavior();
+               
             }
         }
 
@@ -603,6 +614,8 @@ namespace Logic
                         }
                     }return "no arrows";
                 // catch all for invalid input
+                case "help":
+                    return "help";
                 default:
                     return "invalid default";
             }
