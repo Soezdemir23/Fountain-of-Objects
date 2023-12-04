@@ -2,6 +2,15 @@
 
 A game to recreate "Hunt the Wumpus" in another flavor.
 Press "help" in the terminal to see a guide.
+Built with .NET 7
+
+## How to play:
+
+- Clone the repository
+- Build the project
+- Run the project
+
+
 
 ## View of game:
 
@@ -24,5 +33,5 @@ Press "help" in the terminal to see a guide.
 
 
 ----
-
+MIT Licensed.
 Feedback always welcome 😄
