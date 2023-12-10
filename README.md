@@ -7,14 +7,14 @@ Built with .NET 7
 ## How to play:
 
 - Clone the repository
-- Build the project
-- Run the project
+- Build the project with dotnet build
+- Run the project with dotnet run
 
 
 
 ## View of game:
 
-![Game Excerpt](./Game.png);
+![Game Excerpt](./Screenshot.png);
 
 ## Todos
 
